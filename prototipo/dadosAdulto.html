@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Emilly Lins - Psicóloga</title>
+		<meta name="author" content="Sérgio" />
+		<link href="css/style.css" type="text/css" rel="Stylesheet" />
+		<link rel="shortcut icon" href="favicon.ico" />
+
+		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+
+		<script type="text/javascript" src="js/jquerySite.js"></script>
+
+	</head>
+	<body>
+		<div id="main">
+			<div class="topo">
+				<a href="index.html" title="Home" id="btnHome"></a>
+				<h1>Dados Adulto</h1>
+
+				<a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
+			</div>
+
+			<div class="forms">
+				<form>
+					<!-- ESQUERDA -->
+					<div id="left">
+						<h5 id="reg">Registro Nº: 0000</h5>
+						<div class="block">
+							<label>Nome</label>
+							<input type="text" id="nome" class="G"/>
+						</div>
+						<div class="block">
+							<div>
+								<label>Idade</label>
+								<input type="text" maxlength="2" id="idade" class="P"/>
+							</div>
+
+							<div>
+								<label>Data de Nasc.</label>
+								<input type="text" id="data" maxlength="10" class="M" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDateVenc(this.id,this.value, 4);">
+							</div>
+							<div>
+								<label>Sexo</label>
+								<select id="sexo" class="P">
+									<option value=""></option>
+									<option value="M">M</option>
+									<option value="F">F</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="block">
+							<div>
+								<label>Naturalidade</label>
+								<input type="text" maxlength="" id="nat" class="M"/>
+							</div>
+							<div>
+								<label>CPF</label>
+								<input type='text' id="cpf" class="M" maxlength="14" name='cpfcnpj' onkeypress='mascaraMutuario(this,cpfCnpj)' onblur='clearTimeout()'>
+							</div>
+						</div>
+
+						<div class="block">
+							<div>
+								<label>Profissão</label>
+								<input type="text" maxlength="" id="prof" class="M"/>
+							</div>
+							<div>
+								<label>Est. Civil</label>
+								<select id="estCivil" class="M">
+									<option value=""></option>
+									<option value="solteiro">Solteiro</option>
+									<option value="casado">Casado</option>
+									<option value="viuvo">Viúvo</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="block">
+							<div>
+								<label>Endereço</label>
+								<input type="text" maxlength="" id="end" class="G"/>
+							</div>
+						</div>
+						<div class="block">
+							<div>
+								<label>Cidade</label>
+								<input type="text" maxlength="" id="cid" class="M"/>
+							</div>
+							<div>
+								<label>Bairro</label>
+								<input type="text" maxlength="" id="bairro" class="M"/>
+							</div>
+						</div>
+						<div class="block">
+							<div>
+								<label>Estado</label>
+								<select id="estado" class="M">
+									<option value=""></option>
+									<option value="AC">AC</option>
+									<option value="AL">AL</option>
+									<option value="AP">AP</option>
+									<option value="AM">AM</option>
+									<option value="BA">BA</option>
+									<option value="CE">CE</option>
+									<option value="DF">DF</option>
+									<option value="ES">ES</option>
+									<option value="GO">GO</option>
+									<option value="MA">MA</option>
+									<option value="MT">MT</option>
+									<option value="MS">MS</option>
+									<option value="MG">MG</option>
+									<option value="PA">PA</option>
+									<option value="PB">PB</option>
+									<option value="PR">PR</option>
+									<option value="PE">PE</option>
+									<option value="PI">PI</option>
+									<option value="RJ">RJ</option>
+									<option value="RN">RN</option>
+									<option value="RS">RS</option>
+									<option value="RO">RO</option>
+									<option value="RR">RR</option>
+									<option value="SC">SC</option>
+									<option value="SP">SP</option>
+									<option value="SE">SE</option>
+									<option value="TO">TO</option>
+								</select>
+							</div>
+							<div>
+								<label>CEP</label>
+								<input type="text" maxlength="8" id="cep" class="M"/>
+							</div>
+						</div>
+						<div class="block">
+							<div>
+								<label>Fone Res.</label>
+								<input type="text" maxlength="15" id="foneR" class="M"/>
+							</div>
+							<div>
+								<label>Fone Trab.</label>
+								<input type="text" maxlength="15" id="foneT" class="M"/>
+							</div>
+						</div>
+					</div>
+
+					<!-- DIREITA -->
+					<div id="right">
+						<div class="divTop">
+							<h2>Filiação</h2>
+							<div class="content">
+								<div class="divL">
+									<div>
+										<label>Pai</label>
+										<input type="text" maxlength="" id="pai" class="G"/>
+									</div>
+
+									<div class="block">
+										<div>
+											<label>Idade</label>
+											<input type="text" maxlength="2" id="idadePai" class="P"/>
+										</div>
+
+										<div>
+											<label>Profissão</label>
+											<input type="text" maxlength="" id="profPai" class="M"/>
+										</div>
+									</div>
+								</div>
+								<div class="divR">
+									<div>
+										<label>Mãe</label>
+										<input type="text" maxlength="" id="mae" class="G"/>
+									</div>
+
+									<div class="block">
+										<div>
+											<label>Idade</label>
+											<input type="text" maxlength="2" id="idadeMae" class="P"/>
+										</div>
+
+										<div>
+											<label>Profissão</label>
+											<input type="text" maxlength="" id="profMae" class="M"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="divBottom">
+							<div class="content">
+								<div class="block">
+									<div>
+										<label>Encaminhado Por</label>
+										<input type="text" maxlength="" id="encPor" class="G"/>
+									</div>
+
+									<div>
+										<label>Encaminhado Para</label>
+										<input type="text" maxlength="" id="encPara" class="G"/>
+									</div>
+								</div>
+							</div>
+
+							<div class="content">
+								<div>
+									<label>Observações</label>
+									<textarea id="obs"></textarea>
+								</div>
+								<div>
+									<label>Data de Entrada</label>
+									<input type="text" id="dataEnt" maxlength="10" class="M" OnKeyPress="formatar(this, '##/##/####')" onBlur="return doDateVenc(this.id,this.value, 4);">
+								</div>
+							</div>
+						</div>
+
+						<a class="btnAzul" href="anamneseAdulto.html">PRÓXIMO >></a>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
+

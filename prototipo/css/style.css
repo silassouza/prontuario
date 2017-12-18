@@ -1,0 +1,688 @@
+/*-- CSS RESET --*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	text-decoration: none;
+	vertical-align: baseline;
+	border: none;
+}
+
+textarea:focus, input:focus, select:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+} 
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*-- END CSS RESET --*/
+
+
+/*--- FONTS IMPORT ---*/
+
+@font-face {
+    font-family: FuturaBkBt;
+    src: url('../fonts/FuturaBkBt.ttf');
+}
+
+@font-face {
+    font-family: FuturaMdBt;
+    src: url('../fonts/FuturaMdBt.ttf');
+}
+
+/*--- END FONTS IMPORT ---*/
+
+
+
+html{
+	background: url(../img/bg.png) repeat 0 0 #E6E7E8;
+}
+
+body{
+	min-height: 540px;
+	max-height: 760px;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	left: 0;
+	box-shadow: 0 0 20px #999;
+	margin-top: -20%;
+	padding: 10px 0;
+	background: url(../img/bgMain.png) no-repeat right bottom #fff;
+}
+
+h1{
+	height: 40px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 25px;
+	color: #fff;
+	font-weight: bold;
+	line-height: 40px;
+	letter-spacing: 2px;
+	word-spacing: 10px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	left: 120px;
+	padding-left: 15px;
+	background: url(../img/bgTit.png) repeat-y left 0;
+}
+
+h2{
+	font-family: FuturaMdBt;
+	font-size: 18px;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+h3{
+	font-family: FuturaBkBt;
+	font-size: 30px;
+	text-align: left;
+	margin-bottom: 15px;
+}
+
+#main{
+	max-width: 1260px;
+	margin: 0 auto;
+}
+
+#logoG{
+	display: block;
+	margin: 60px auto 0 auto;
+}
+
+ul#menuPrinc{
+	display: table;
+	margin: 40px auto 0 auto;
+}
+
+ul#menuPrinc li{
+	width: 97px;
+	display: block;
+	float: left;
+	position: relative;
+	overflow: visible;
+	margin: 0 20px;
+}
+
+ul#menuPrinc li a{
+	width: 97px;
+	height: 97px;
+	text-align: center;
+	display: block;
+}
+
+ul#menuPrinc li:hover a{
+	opacity: 0.5;
+}
+
+ul#menuPrinc li:hover label{
+	width: 200px;
+	display: block;
+	margin: 0 -50%;
+}
+
+ul#menuPrinc li label{
+	font-family: Century Gothic;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 25px;
+	color: #9d9d9d;
+	letter-spacing: 1px;
+	display: none;
+}	
+
+div.topo{
+	height: 85px;
+	overflow: hidden;
+	position: relative;
+	margin: 0 10px 0 10px;
+}
+
+div.topo a#btnHome{
+	width: 86px;
+	height: 62px;
+	display: block;
+	float: left;
+	background: url(../img/logoP.png) no-repeat 0 0;
+}
+
+div.topo a#btnHome:hover{
+	opacity: 0.5;
+}
+
+a.btnVoltar{
+	width: 37px;
+	height: 28px;
+	display: block;
+	float: right;
+	margin: 50px 0 10px 0;
+	background: url(../img/iconVoltar.png) no-repeat 0 0;
+}
+
+a.btnVoltar:hover{
+	opacity: 0.5;
+}
+
+div.forms{
+	width: 100%;
+	font-family: FuturaBkBt;
+	color: #3f3e40;
+	display: table;
+	position: relative;
+	margin: 0 auto;
+}
+
+div.forms h5{
+	font-size: 10px;
+	text-align: right;
+	color: #919496;
+}
+
+div.forms input, select, textarea, .divResponsavel{
+	height: 20px;
+	font-size: 14px;
+	color: #666;
+	display: block;
+	border: 1px solid #A9ABAE;
+	border-radius: 4px;
+	padding: 0 2px;
+	margin-bottom: 10px;
+}
+
+div.forms input:focus, select:focus, textarea:focus{
+	border: 1px solid #A9ABAE;
+}
+
+textarea{
+	width: 98%;
+	height: 80px;
+	resize: none;
+	overflow-y: scroll;
+}
+
+textarea.M{
+	width: 380px !important;
+	height: 75px;
+}
+
+textarea.P{
+	width: 260px !important;;
+	height: 75px;
+}
+
+div.forms .G{
+	width: 380px;
+}
+
+div.forms .M{
+	width: 180px;
+}
+
+div.forms .P{
+	width: 70px;
+}
+
+div.forms select.M{
+	width: 185px;
+	height: 22px;
+}
+
+div.forms select.P{
+	width: 100px;
+	height: 22px;
+}
+
+div.forms .btnAzul{
+	width: 120px;
+	height: 25px;
+	font-family: FuturaMdBt;
+	font-size: 14px;
+	color: #FFF;
+	text-align: center;
+	line-height: 25px;
+	display: block;
+	float: right;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	margin: 15px 5px 0 5px;
+	background: #0083B3;
+}
+
+div.forms .btnAzul:hover{
+	opacity: 0.5;
+}
+
+div.block{
+	width: 100%;
+	display: table;
+	border: none;
+	border-radius: 0;
+}
+
+div.block div{
+	display: table;
+	float: left;
+	margin: 0 9px 0 0;
+}
+
+label{
+	font-size: 14px;
+	font-weight: bold;
+	display: block;
+	margin: 0 0 3px 0;
+}
+
+input.busca{
+	float: right;
+	border-radius: 10px !important;	
+	padding: 0 25px 0 10px !important;
+	background: url('../img/bgBusca.jpg') no-repeat right+5px center #FFF;
+}
+
+
+
+/*----------------------------- DIV ESQUERDA ---*/
+
+div.forms div#left{
+	width: 390px;
+	max-height: 400px;
+	border: 1px solid #D2D3D5;
+	border-radius: 8px;
+	float: left;
+	margin-right: 10px;
+	padding: 10px;
+	background: #EDF3F8;
+}
+
+
+/*---- DIV RESPONSÁVEL ----*/
+.divResponsavel{
+	width: 380px !important;
+	height: 75px !important;
+	color: #FFF;
+	border-radius: 4px !important;
+	display: block !important;
+	padding: 5px;
+	background: #0083B3;
+}
+
+.divResponsavel .block{
+	width: 100%;
+}
+
+.divResponsavel .block label{
+	display: inline;
+}
+
+.divResponsavel select{
+	display: inline;
+	margin-left: 5px;
+}
+
+.divResponsavel input.M{
+	width: 175px !important;
+}
+
+/*---- FIM DIV RESPONSÁVEL ----*/
+
+
+
+/*---- DIV PACIENTES ----*/
+	
+div#divPacientes,
+div#divEvo{
+	width: 100%;
+	height: 220px;
+	overflow-y: scroll;
+	border: 1px solid #A9ABAE;
+	margin: 30px auto 0 auto;
+}
+
+div#divPacientes ul{
+	
+	background: yellow;
+}
+
+div#divPacientes ul li{
+	height: 25px;
+	overflow: hidden;
+	line-height: 25px;
+	cursor: pointer;
+	position: relative;
+	padding: 2px 30px 2px 5px;
+}
+
+div#divPacientes ul li:nth-child(odd){
+	background: #FFF;
+}
+
+
+div#divPacientes ul li:nth-child(even){
+	background: #eaf0f0;
+}
+
+div#divPacientes ul li:hover,
+div#divPacientes ul li.select{
+	color: #FFF;
+	background: #0083B3; 
+}
+
+div#divPacientes ul li:hover div.btnArq{
+	display: block;
+}
+
+div#divPacientes ul li div.btnArq{
+	width: 22px;
+	height: 17px;
+	position: absolute;
+	display: none;
+	top: 6px;
+	right: 10px;
+	background: url('../img/bgLiPacientes.png') no-repeat 0 0;
+} 
+
+div#divPacientes ul li div.btnArq:hover{
+	opacity: 0.5;
+}
+
+
+div#menuPacientes{
+	width: auto;
+	display: table;
+	margin: 20px auto 10px auto;
+}
+
+div#menuPacientes *{
+	height: 77px;
+	float: left;
+	border: none;
+	cursor: pointer;
+	margin: 0 20px;
+}
+
+div#menuPacientes *:hover{
+	opacity: 0.5;
+}
+
+
+div#menuPacientes .btnPaciente{
+	width: 60px;
+	background: url('../img/iconPacien.png') no-repeat 0 0;
+}
+
+div#menuPacientes .btnEvol{
+	width: 60px;
+	background: url('../img/iconEvo.png') no-repeat 0 0;
+}
+
+div#menuPacientes .btnArq{
+	width: 65px;
+	background: url('../img/iconArq.png') no-repeat 0 0;
+
+}
+/*---- FIM DIV PACIENTES ----*/
+
+
+
+
+/*--------------------------------- FIM DIV ESQUERDA ---*/
+
+
+
+/*--------------------------------- DIV DIREITA ---*/
+
+div.forms div#right{
+	width: 830px;
+	height: auto;
+	float: left;
+	padding: 0;
+	/*background: #F6EFF6;*/
+}
+
+div.forms div#right div.divTop,
+div.forms div#right div.divBottom{
+	border: 1px solid #D2D3D5;
+	border-radius: 8px;
+	position: relative;
+	padding: 10px;
+}
+
+div.forms div#right div.content{
+ 	width: 100%;
+	height: auto;
+	display: table;
+	position: relative;
+	margin: 0;
+}
+
+
+/*--- DIV CIMA ---*/
+
+div.forms div#right div.divTop{
+	max-height: 400px;
+	min-height: 150px;
+	margin-bottom: 10px;
+	background: #F6EFF6;
+}
+
+div.forms div#right div.divTop .divL,
+div.forms div#right div.divTop .divR{
+	border: none;
+	float: left;
+}
+
+div.forms div#right div.divTop .divR{
+	margin-left: 10px;
+}
+
+div.forms div#right div.divTop .divL{
+	border-right: 1px solid #A9ABAE;
+	padding-right: 10px;
+}
+
+/*--- FIM DIV CIMA ---*/
+
+
+/*--- DIV BAIXO ---*/
+
+div.forms div#right div.divBottom{
+	max-height: 200px;
+	background: #F4F4F5;
+}
+
+/*--- FIM DIV BAIXO ---*/
+
+
+
+/*------------------  EVOLUÇÃO ---*/
+
+div.btnAddDelEvo{
+	width: auto;
+	height: 23px;
+	position: absolute;
+	top: 15px;
+	right: 10px;
+}
+
+div.btnAddDelEvo *:hover{
+	opacity: 0.5;
+}
+
+div.btnAddDelEvo .btnAdd,
+div.btnAddDelEvo .btnDel{
+	width: 23px;
+	height: 23px;
+	float: left;
+	cursor: pointer;
+	margin: 0 0 0 10px;
+}
+
+div.btnAddDelEvo .btnAdd{
+	background: url('../img/iconAddEvo.png') no-repeat 0 0;
+}
+
+div.btnAddDelEvo .btnDel{
+	background: url('../img/iconExcEvo.png') no-repeat 0 0;
+}
+
+div#divEvo{
+	height: 330px;
+	display: none;
+	margin: 0;
+	background: #FFF;
+}
+
+div#divEvo ul li{
+	width: auto;
+	height: 100px;
+	padding: 5px;
+}
+
+div#divEvo ul li:nth-child(odd){
+	background: #f8f8f8;
+}
+
+div#divEvo ul li:nth-child(even){
+	background: #eaeaea;
+}
+
+div#divEvo ul li div{
+	float: left;
+	margin-left: 5px;
+}
+
+div#divEvo ul li div textarea{
+	width: 600px;
+}
+
+/*------------------  FIM EVOLUÇÃO ---*/
+
+/*--------------------------------- FIM DIV DIREITA ---*/
+
+
+/*------------------  ARQUIVADOS ---*/
+div#left.arquivados{
+	width: 1250px !important;
+	height: 375px;
+	overflow-y: hidden;
+	padding-bottom: 50px !important;
+}
+
+div#left.arquivados div{
+	height: 415px;
+	overflow-y: auto;
+}
+
+div#left.arquivados div ul{
+	display: table;
+}
+
+div#left.arquivados div ul li{
+	width: 70px;
+	height: 105px;
+	float: left;
+	cursor: pointer;
+	margin: 10px 27px;
+	background: url('../img/iconArq.png') no-repeat center top;
+}
+
+div#left.arquivados div ul li:hover,
+div#left.arquivados div ul li:hover label{
+	opacity: 0.5
+}
+
+div#left.arquivados div ul li label{
+	width: 70px;
+	font-family: Century Gothic;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 25px;
+	color: #9d9d9d;
+	letter-spacing: 1px;
+	margin-top: 80px;
+}	
+
+
+div#left.arquivadosAno{
+	float: none !important;
+	margin: 0 auto !important;
+}
+
+div#left.arquivadosAno div.titulo{
+	height: 40px;
+	font-size: 30px;
+	line-height: 40px;
+	margin-bottom: 10px;
+	padding-left: 55px;
+	background: url('../img/iconTitArq.png') no-repeat left center;
+}
+
+div#left.arquivadosAno div#divPacientes ul li{
+	padding: 2px 5px;
+}
+ 
+div#left.arquivadosAno #menuPacientes .restPaciente,
+div#left.arquivadosAno #menuPacientes .delPaciente{
+	width: 65px;
+	height: 65px;
+}
+
+div#left.arquivadosAno #menuPacientes .restPaciente{	
+	background: url('../img/iconRestPac.png') no-repeat 0 0;
+}
+
+div#left.arquivadosAno #menuPacientes .delPaciente{
+	background: url('../img/iconExcPac.png') no-repeat 0 0;
+}
+
+/*------------------  FIM ARQUIVADOS ---*/
+
+
+
+
+
+
+
+
