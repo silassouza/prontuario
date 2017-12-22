@@ -6,16 +6,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Emilly Lins - Psicóloga</title>
     <meta name="author" content="Sérgio" />
+    <link href="/css/bootstrap.css" type="text/css" rel="Stylesheet" />
     <link href="/css/style.css" type="text/css" rel="Stylesheet" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <script type="text/javascript" src="/js/jquery-1.11.3.js"></script>
-
-    <script type="text/javascript" src="/js/jquerySite.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
 
 </head>
 
 <body>
+    {{#if success_msg}}
+    <div class="alert alert-success">
+        {{success_msg}}
+        <a href="#close" class="icon-remove"></a>
+    </div>
+    {{/if}} {{#if error_msg}}
+    <div class="alert alert-danger">
+        {{error_msg}}
+        <a href="#close" class="icon-remove"></a>
+    </div>
+    {{/if}} {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+        <a href="#close" class="icon-remove"></a>
+    </div>
+    {{/if}} 
     {{{body}}}
 </body>
 
