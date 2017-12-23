@@ -9,17 +9,11 @@ var userSchema = new mongoose.Schema({
     senha: String
 })
 
+userSchema.methods.comparePasswords = function(senha, callback){
+    bcrypt.compare(senha, this.senha, callback)
+}
+
 var User = mongoose.model('User', userSchema)
-
-// User.createUser = function(user, callback){
-//     bcrypt.genSalt(10, function(err, salt){
-//         bcrypt.hash(user.senha, salt, function(err, hash){
-//             user.senha = hash
-//             user.save(callback)
-//         })
-//     })
-// }
-
 
 User.createUser = function (user, callback) {
     async.waterfall([
@@ -37,13 +31,9 @@ User.createUser = function (user, callback) {
     ])
 }
 
-User.getUserByUsername = function(username, callback){
-    var query = { username: username }
+User.getUserByEmail = function(email, callback){
+    var query = { email }
     User.findOne(query, callback)
-}
-
-User.comparePasswords = function(password, hash, callback){
-    bcrypt.compare(password, hash, callback)
 }
 
 module.exports = User

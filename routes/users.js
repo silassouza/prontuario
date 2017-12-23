@@ -1,14 +1,16 @@
 var express = require('express')
+var passport = require('passport')
+
 var User = require('../models/user')
 
 var router = express.Router()
 
 // Register
-router.get('/register', function(req, res){
+router.get('/register', function (req, res) {
 	res.render('register')
 })
 
-router.post('/register', function(req, res){
+router.post('/register', function (req, res) {
 	var nome = req.body.nome
 	var email = req.body.email
 	var senha = req.body.senha
@@ -22,9 +24,9 @@ router.post('/register', function(req, res){
 
 	var errors = req.validationErrors()
 
-	if(errors){
+	if (errors) {
 		res.render('register', { errors })
-	}else{
+	} else {
 
 		var newUser = new User({
 			nome: nome,
@@ -32,8 +34,8 @@ router.post('/register', function(req, res){
 			senha: senha
 		})
 
-		User.createUser(newUser, function(err, user){
-			if(err) throw err
+		User.createUser(newUser, function (err, user) {
+			if (err) throw err
 			console.log(user)
 			req.flash('success_msg', 'You are registered and can now login')
 			res.redirect('/users/login')
@@ -42,7 +44,24 @@ router.post('/register', function(req, res){
 })
 
 // Login
-router.get('/login', function(req, res){
+router.get('/login', function (req, res) {
 	res.render('login')
 })
+
+router.post('/login',
+	passport.authenticate('local', {
+		failureRedirect: '/users/login',
+		failureFlash: true,
+	}),
+	function (req, res) {
+		res.redirect(req.query.ref || '/')
+	}
+)
+
+router.get('/logout', function (req, res) {
+	req.logout();
+	req.flash('success_msg', 'voçê está deslogado')
+	res.redirect('/users/login')
+})
+
 module.exports = router

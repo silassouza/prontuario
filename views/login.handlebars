@@ -5,18 +5,19 @@
     </div>
 
     <div class="forms">
-        <form>
+        <form action="/users/login" method="POST">
             <!-- ESQUERDA -->
             <div id="left">
                 <div class="block">
-                    <label>Login</label>
-                    <input type="text" id="login" class="M" />
+                    <label>Email</label>
+                    <input type="text" name="email" class="M" />
                 </div>
                 <div class="block">
                     <label>Senha</label>
-                    <input type="password"  id="senha" class="M" />
+                    <input type="password" name="senha" class="M" />
                 </div>
                 <button type="submit" class="btnAzul">Entrar</button>
+                <a class="btnAzul" href="/users/register" >Cadastrar-se</a>
             </div>
         </form>
     </div>
