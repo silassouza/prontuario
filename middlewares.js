@@ -1,4 +1,4 @@
-var expressValidator = require('express-validator');
+var moment = require('moment')
 
 module.exports = {
     ensureAuth: function (req, res, next) {
@@ -7,14 +7,10 @@ module.exports = {
             '/users/logout',
             '/users/register'
         ]
-        console.log("path " + req.path + (ignore.indexOf(req.path) > -1  ? " ignored" : " restricted"))
-        console.log(req.isAuthenticated() ? "is Authenticated" : "isn't Authenticated")
-
+        
         if (ignore.indexOf(req.path) > -1 || req.isAuthenticated()) {
-            console.log("can access " + req.path)
             return next()
         } else {
-            console.log("can't access" + req.path)
             req.flash('error_msg', 'Você não está autenticado')
             res.redirect('/users/login?ref=' + req.path)
         }
@@ -28,7 +24,7 @@ module.exports = {
         next();
     },
 
-    expressValidator: expressValidator({
+    expressValidatorOptions: {
         errorFormatter: function (param, msg, value) {
             var namespace = param.split('.')
                 , root = namespace.shift()
@@ -42,7 +38,26 @@ module.exports = {
                 msg: msg,
                 value: value
             };
-        }
-    }),
+        },
+        customValidators: {
+            isDate: function(value) {
+                if(!value) return true;
+                return moment(value, "DD/MM/YYYY", true).isValid()
+            }
+         }
+    },
 
+    expressHandlebarsOptions: { 
+        defaultLayout:'layout', 
+        extname: ".hbs", 
+        helpers: {
+            selected: function (option, value) {
+                if (option == value) {
+                    return "selected"
+                } else {
+                    return null;
+                }
+            }
+        } 
+    }
 }

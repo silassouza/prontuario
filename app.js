@@ -1,66 +1,60 @@
+var express = require('express')
+var path = require('path')
+var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
+var exphbs = require('express-handlebars')
+var flash = require('connect-flash')
+var passport = require('passport')
+var session = require('express-session')
+var expressValidator = require('express-validator')
 
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var flash = require('connect-flash');
-var passport = require('passport');
-var session = require('express-session');
-
-
-var db = require('./models/db');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var cadastro = require('./routes/cadastro');
+var db = require('./models/db')
+var routes = require('./routes/index')
+var users = require('./routes/users')
+var cadastro = require('./routes/cadastro')
 var localStrategy = require('./auth/localStrategy')
-var middlewares = require('./middlewares');
-
+var middlewares = require('./middlewares')
 
 // Init App
-var app = express();
+var app = express()
 
 // View Engine
-app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', exphbs({
-	defaultLayout:'layout',
-	extname: ".hbs",
-	helpers: require("./public/js/helpers"),	
-}));
-app.set('view engine', '.hbs');
+app.set('views', path.join(__dirname, 'views'))
+app.engine('.hbs', exphbs(middlewares.expressHandlebarsOptions))
+app.set('view engine', '.hbs')
 
 // BodyParser Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 // Set Static Folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Express Session
-app.use(session({ secret: 'secret', saveUninitialized: true, resave: true }));
+app.use(session({ secret: 'secret', saveUninitialized: true, resave: true }))
 
 // Passport init
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express Validator
-app.use(middlewares.expressValidator);
+app.use(expressValidator(middlewares.expressValidatorOptions))
 
 // Connect Flash
-app.use(flash());
+app.use(flash())
 
 // Global Vars
-app.use(middlewares.setMessages);
-app.use(middlewares.ensureAuth);
+app.use(middlewares.setMessages)
+app.use(middlewares.ensureAuth)
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/cadastro', cadastro);
+app.use('/', routes)
+app.use('/users', users)
+app.use('/cadastro', cadastro)
 
 // Set Port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 3000))
 
 app.listen(app.get('port'), function(){
-	console.log('Server started on port '+app.get('port'));
-});
+	console.log('Server started on port '+app.get('port'))
+})

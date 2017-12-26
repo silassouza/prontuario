@@ -2,69 +2,65 @@
 
 var express = require('express')
 
-var estados = require('../models/enums/estados').list()
-var estadosCivis = require('../models/enums/estadosCivis').list()
-var respostas = require('../models/enums/respostas').list()
-var religioes = require('../models/enums/religioes').list()
-var sexos = require('../models/enums/sexos').list()
+var estados = require('../models/enums/estados')
+var estadosCivis = require('../models/enums/estadosCivis')
+var respostas = require('../models/enums/respostas')
+var religioes = require('../models/enums/religioes')
+var sexos = require('../models/enums/sexos')
 
-var Paciente = require('../models/paciente');
+var Paciente = require('../models/paciente')
 
-var router = express.Router();
+var router = express.Router()
+
+function fillLists(state){
+	state.estados = estados.list()
+	state.estadosCivis = estadosCivis.list()
+	state.respostas = respostas.list()
+	state.religioes = religioes.list()
+	state.sexos = sexos.list()
+}
 
 router.get('/adulto', function (req, res) {
-	console.log(estados)
-	
-	res.render('adulto', {  
-		index: 0,
-		estados,
-		estadosCivis,
-		respostas,
-		religioes,
-		sexos	
-	 });
-});
+	var state = { index: 0 }
+	fillLists(state)
+	res.render('adulto', state)
+})
 
 router.post('/adulto', function (req, res) {
 
-	req.body.estados = estados
-	req.body.estadosCivis = estadosCivis
-	req.body.respostas = respostas
-	req.body.religioes = religioes
-	req.body.sexos = sexos
+	var state = req.body;
+	
+	fillLists(state)
 	
 	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
 	req.checkBody('idade', 'O campo Idade é obrigatório').notEmpty()
 	req.checkBody('dataNascimento', 'O campo Data de Nascimento é obrigatório').notEmpty()
 	req.checkBody('sexo', 'O campo Sexo é obrigatório').notEmpty()
-	req.checkBody('sexo', 'O campo Sexo é inválido').isIn(['M', 'F'])
+	req.checkBody('sexo', 'O campo Sexo é inválido').isIn(sexos.keys())
 	req.checkBody('naturalidade', 'O campo Naturalidade é obrigatório').notEmpty()
-	req.checkBody('dataEntrada', 'O campo Data de enrtada é obrigatório').notEmpty()
+	req.checkBody('dataEntrada', 'O campo Data de entrada é obrigatório').notEmpty()
+	req.checkBody('dataEntrada', 'O campo Data de entrada é inválido').isDate()
 
 	var errors = req.validationErrors()
-
 	if (errors) {
-		req.body.errors = errors	
-		res.render('adulto', req.body)
-	} else {
+		state.errors = errors	
+		return res.render('adulto', state)
+	} 
 
-		var paciente = new Paciente(req.body)
+	var paciente = new Paciente(state)
 
-		paciente.save(function (err, paciente) {
-			if (err) {
-				req.flash('error_msg', err.message)
-			} else {
-				req.flash('success_msg', 'Paciente cadastrado com sucesso')
-			}
-			res.render('adulto', req.body)
-		})
-	}
-
-
-});
+	paciente.save(function (err, paciente) {
+		if (err) {
+			req.flash('error_msg', err.message)
+		} else {
+			req.flash('success_msg', 'Paciente cadastrado com sucesso')
+		}
+		res.render('adulto', state)
+	})
+})
 
 router.get('/crianca', function (req, res) {
-	res.render('crianca');
-});
+	res.render('crianca')
+})
 
-module.exports = router;
+module.exports = router
