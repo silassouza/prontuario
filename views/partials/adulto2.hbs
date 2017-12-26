@@ -1,0 +1,110 @@
+<!-- ESQUERDA -->
+<div id="left">
+
+    <div class="block">
+        <div>
+            <label>Consultas Ant.</label>
+            <select name="consultAnterior" class="M seletor">
+                <option value=""></option>
+                <option value="SIM">SIM</option>
+                <option value="NÃO">NÃO</option>
+            </select>
+
+        </div>
+        <div>
+            <label>Quando</label>
+            <input type="text" name="dataConsultaAnterior" maxlength="10" class="M disable" OnKeyPress="formatar(this, '##/##/####')"
+                onBlur="return doDateVenc(this.id,this.value, 4);">
+        </div>
+    </div>
+
+    <div class="block">
+        <label>Motivo da Procura</label>
+        <textarea name="motivoProcura" class="M"></textarea>
+    </div>
+
+    <div class="block">
+        <label>Histórico da Queixa</label>
+        <textarea name="historicoQueixa" class="M"></textarea>
+    </div>
+
+    <div class="block">
+        <label>Religião</label>
+        <select name="religiao" class="M">
+            <option value=""></option>
+            <option value="ADV">Adventismo</option>
+            <option value="BAB">Babaçuê</option>
+            <option value="BAH">Bahá'í</option>
+            <option value="BAT">Batuque</option>
+            <option value="BUD">Budismo</option>
+            <option value="CAN">Candomblé</option>
+            <option value="CAT">Catolicismo</option>
+            <option value="ESP">Espiritismo</option>
+            <option value="HIN">Hinduísmo</option>
+            <option value="IOR">Igreja Ortodoxa</option>
+            <option value="ISL">Islamismo</option>
+            <option value="JUD">Judaísmo</option>
+            <option value="MOR">Mormonismo</option>
+            <option value="NRJ">Não religiosos</option>
+            <option value="NPG">Neopaganismo</option>
+            <option value="PRT">Protestantismo</option>
+            <option value="SDA">Santo Daime e religiões ameríndias</option>
+            <option value="TJV">Testemunhas de Jeová</option>
+            <option value="UMB">Umbanda</option>
+            <option value="XAM">Xambá</option>
+        </select>
+    </div>
+
+    <div class="block">
+        <label>Genetograma</label>
+        <textarea name="genetograma" maxlength="500" class="M"></textarea>
+    </div>
+</div>
+
+<!-- DIREITA -->
+<div id="right">
+    <div class="divTop">
+        <div class="content">
+            <div class="divL">
+                <div class="block">
+                    <label>Dinâmica Familiar</label>
+                    <textarea name="dinamicaFamiliar" maxlength="500" class="M"></textarea>
+                </div>
+
+                <div class="block">
+                    <label>Dinâmica Social</label>
+                    <textarea name="dinamicaSocial" maxlength="500" class="M"></textarea>
+                </div>
+
+                <div class="block">
+                    <label>Dinâmica Ecolar/Profissional</label>
+                    <textarea name="dinamicaEscolarProfissional" maxlength="500" class="M"></textarea>
+                </div>
+            </div>
+            <div class="divR">
+                <div class="block">
+                    <label>Hist. Doenças Crônicas</label>
+                    <div>
+                        <select name="historicoDoenca" class="P">
+                            <option value=""></option>
+                            <option value="">SIM</option>
+                            <option value="">NÃO</option>
+                        </select>
+                    </div>
+                    <div>
+                        <textarea name="historicoDoencaDetalhe" maxlength="500" class="P disable"></textarea>
+                    </div>
+                </div>
+
+                <div class="block">
+                    <label>Avaliação Primária</label>
+                    <textarea name="avaliacaoPrima" maxlength="500" class="M"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btnAzul">SALVAR</button>
+    <a class="btnAzul" href="/">CANCELAR</a>
+    <a id="previous" class="btnAzul">ANTERIOR</a>
+</div>

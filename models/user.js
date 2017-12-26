@@ -4,12 +4,20 @@ var bcrypt = require('bcryptjs')
 var async = require('async')
 
 var userSchema = new mongoose.Schema({
-    nome: String,
-    email: String,
-    senha: String
+    nome: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    senha: { type: String, required: true },
 })
 
-userSchema.methods.comparePasswords = function(senha, callback){
+userSchema.post('save', function (error, doc, next) {
+    if (error.name === 'MongoError' && error.code === 11000) {
+        next(new Error('email deve ser único'));
+    } else {
+        next(error);
+    }
+})
+
+userSchema.methods.comparePasswords = function (senha, callback) {
     bcrypt.compare(senha, this.senha, callback)
 }
 
@@ -31,7 +39,7 @@ User.createUser = function (user, callback) {
     ])
 }
 
-User.getUserByEmail = function(email, callback){
+User.getUserByEmail = function (email, callback) {
     var query = { email }
     User.findOne(query, callback)
 }

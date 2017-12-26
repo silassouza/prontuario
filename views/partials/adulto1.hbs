@@ -1,0 +1,170 @@
+<!-- ESQUERDA -->
+<div id="left">
+    <h5 id="reg">Registro Nº: 0000</h5>
+    <div class="block">
+        <label>Nome</label>
+        <input type="text" name="nome" maxlength="200" class="G" value="{{nome}}" />
+    </div>
+    <div class="block">
+        <div>
+            <label>Idade</label>
+            <input type="text" maxlength="3" name="idade" value="{{idade}}" class="P" filter="idade" />
+        </div>
+
+        <div>
+            <label>Data de Nasc.</label>
+            <input type="text" name="dataNascimento" value="{{dataNascimento}}" maxlength="10" class="M" filter="data" />
+        </div>
+        <div>
+            <label>Sexo</label>
+            <select name="sexo" class="P">
+                <option value=""></option>
+                {{#each sexos}}
+                <option value="{{key}}" {{selected key ../sexo}}>{{value}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="block">
+        <div>
+            <label>Naturalidade</label>
+            <input type="text" maxlength="100" name="naturalidade" value="{{naturalidade}}" class="M" />
+        </div>
+        <div>
+            <label>CPF</label>
+            <input type='text' name="cpf" maxlength="14" value="{{cpf}}" class="M" filter="cpf"/>
+        </div>
+    </div>
+
+    <div class="block">
+        <div>
+            <label>Profissão</label>
+            <input type="text" maxlength="100" name="profissao" value="{{profissao}}" class="M" />
+        </div>
+        <div>
+            <label>Est. Civil</label>
+            <select name="estadoCivil" class="M">
+                <option value=""></option>
+                {{#each estadosCivis}}
+                <option value="{{key}}" {{selected key ../estadoCivil}}>{{value}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="block">
+        <div>
+            <label>Endereço</label>
+            <input type="text" maxlength="200" name="endereco" value="{{endereco}}" class="G" />
+        </div>
+    </div>
+    <div class="block">
+        <div>
+            <label>Cidade</label>
+            <input type="text" maxlength="100" name="cidade" value="{{cidade}}" class="M" />
+        </div>
+        <div>
+            <label>Bairro</label>
+            <input type="text" maxlength="100" name="bairro" value="{{bairro}}" class="M" />
+        </div>
+    </div>
+    <div class="block">
+        <div>
+            <label>Estado</label>
+            <select name="estado">
+                <option value=""></option>
+                {{#each estados}}
+                <option value="{{key}}" {{selected key ../estado}}>{{value}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div>
+            <label>CEP</label>
+            <input type="text" maxlength="8" name="cep" value="{{cep}}" class="M" filter="cep"/>
+        </div>
+    </div>
+    <div class="block">
+        <div>
+            <label>Fone Res.</label>
+            <input type="text" maxlength="15" name="foneResidencial" value="{{foneResidencial}}" class="M" filter="phone" />
+        </div>
+        <div>
+            <label>Fone Trab.</label>
+            <input type="text" maxlength="15" name="foneTrabalho" value="{{foneTrabalho}}" class="M" />
+        </div>
+    </div>
+</div>
+
+<!-- DIREITA -->
+<div id="right">
+    <div class="divTop">
+        <h2>Filiação</h2>
+        <div class="content">
+            <div class="divL">
+                <div>
+                    <label>Pai</label>
+                    <input type="text" maxlength="200" name="nomePai" value="{{nomePai}}" class="G" />
+                </div>
+
+                <div class="block">
+                    <div>
+                        <label>Idade</label>
+                        <input type="text" maxlength="3" name="idadePai" value="{{idadePai}}" class="P" />
+                    </div>
+
+                    <div>
+                        <label>Profissão</label>
+                        <input type="text" maxlength="100" name="profissaoPai" value="{{profissaoPai}}" class="M" />
+                    </div>
+                </div>
+            </div>
+            <div class="divR">
+                <div>
+                    <label>Mãe</label>
+                    <input type="text" maxlength="200" name="nomeMae" value="{{nomeMae}}" class="G" />
+                </div>
+
+                <div class="block">
+                    <div>
+                        <label>Idade</label>
+                        <input type="text" maxlength="3" name="idadeMae" value="{{idadeMae}}" class="P" />
+                    </div>
+
+                    <div>
+                        <label>Profissão</label>
+                        <input type="text" maxlength="100" name="profissaoMae" value="{{profissaoMae}}" class="M" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="divBottom">
+        <div class="content">
+            <div class="block">
+                <div>
+                    <label>Encaminhado Por</label>
+                    <input type="text" maxlength="200" name="encaminhadoPor" value="{{encaminhadoPor}}" class="G" />
+                </div>
+
+                <div>
+                    <label>Encaminhado Para</label>
+                    <input type="text" maxlength="200" name="encaminhadoPara" value="{{encaminhadoPara}}" class="G" />
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div>
+                <label>Observações</label>
+                <textarea name="observacao" maxlength="500">{{observacao}}</textarea>
+            </div>
+            <div>
+                <label>Data de Entrada</label>
+                <input type="text" name="dataEntrada" value="{{dataEntrada}}" maxlength="10" class="M" />
+            </div>
+        </div>
+
+        <a id="next" class="btnAzul">PRÓXIMO</a>
+    </div>
+</div>

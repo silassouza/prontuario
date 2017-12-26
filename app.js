@@ -12,6 +12,7 @@ var session = require('express-session');
 var db = require('./models/db');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var cadastro = require('./routes/cadastro');
 var localStrategy = require('./auth/localStrategy')
 var middlewares = require('./middlewares');
 
@@ -21,12 +22,16 @@ var app = express();
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
-app.set('view engine', 'handlebars');
+app.engine('.hbs', exphbs({
+	defaultLayout:'layout',
+	extname: ".hbs",
+	helpers: require("./public/js/helpers"),	
+}));
+app.set('view engine', '.hbs');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Set Static Folder
@@ -51,6 +56,7 @@ app.use(middlewares.ensureAuth);
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/cadastro', cadastro);
 
 // Set Port
 app.set('port', (process.env.PORT || 3000));

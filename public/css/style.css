@@ -1,3 +1,4 @@
+
 /*-- CSS RESET --*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -20,6 +21,7 @@ time, mark, audio, video, input {
 	text-decoration: none;
 	vertical-align: baseline;
 	border: none;
+	box-sizing: content-box;
 }
 
 textarea:focus, input:focus, select:focus {

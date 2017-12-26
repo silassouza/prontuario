@@ -1,5 +1,6 @@
 var passport = require('passport')
 var passaportLocal = require('passport-local')
+var async = require('async')
 var User = require('../models/user')
 
 var localStrategy = new passaportLocal.Strategy(
@@ -7,22 +8,48 @@ var localStrategy = new passaportLocal.Strategy(
 		usernameField: 'email',
 		passwordField: 'senha'
 	},
-	function (email, senha, done) {
+	function (email, senha, verify) {
+
+		// async.waterfall([
+		// 	function getUser(next) {
+		// 		User.getUserByEmail(email, next)
+		// 	},
+		// 	function checkPass(user, next){
+		// 		if (!user) {
+		// 			verify(null, false, { message: 'Email não cadastrado' });
+		// 			console.log('Incorrect username.')
+		// 		}
+		// 		user.comparePasswords(senha, next) 
+		// 	},
+		// 	function verifyAccess(isMatch, user, done){
+		// 		debugger;
+		// 		if(!isMatch){
+		// 			verify(null, false, { message: 'Senha incorreta' });
+		// 			console.log('Incorrect password.')
+		// 		}else{
+		// 			verify(null, user);
+		// 			console.log('loged ' + user)
+		// 		}
+		// 		done(null)
+		// 	}
+		// ], verify)
+
 		User.getUserByEmail(email, function (err, user) {
-			if (err) { return done(err); }
+			if (err) { verify(err); }
 			if (!user) {
-				return done(null, false, { message: 'Email não cadastrado' });
+				verify(null, false, { message: 'Email não cadastrado' });
 				console.log('Incorrect username.')
+				return;
 			}
-			user.comparePasswords(senha, function(err, isMatch){
-				if (err) { return done(err); }
-				if(!isMatch){
-					return done(null, false, { message: 'Senha incorreta' });
+			user.comparePasswords(senha, function (err, isMatch) {
+				if (err) { verify(err); }
+				if (!isMatch) {
+					verify(null, false, { message: 'Senha incorreta' });
 					console.log('Incorrect password.')
-				}else{
-					return done(null, user);
-					console.log('loged ' + user)
+					return;
 				}
+				verify(null, user);
+				console.log('loged ' + user)
 			})
 		});
 	}

@@ -11,11 +11,7 @@ router.get('/register', function (req, res) {
 })
 
 router.post('/register', function (req, res) {
-	var nome = req.body.nome
-	var email = req.body.email
-	var senha = req.body.senha
-	var senha2 = req.body.senha2
-
+	
 	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
 	req.checkBody('email', 'O campo Email é obrigatório').notEmpty()
 	req.checkBody('email', 'O campo Email está inválido').isEmail()
@@ -28,16 +24,14 @@ router.post('/register', function (req, res) {
 		res.render('register', { errors })
 	} else {
 
-		var newUser = new User({
-			nome: nome,
-			email: email,
-			senha: senha
-		})
+		var newUser = new User(req.body)
 
 		User.createUser(newUser, function (err, user) {
-			if (err) throw err
-			console.log(user)
-			req.flash('success_msg', 'You are registered and can now login')
+			if (err) {
+				req.flash('error_msg', err.message)
+			} else {
+				req.flash('success_msg', 'Você está registrado e agora pode se logar')
+			}
 			res.redirect('/users/login')
 		})
 	}
@@ -54,13 +48,14 @@ router.post('/login',
 		failureFlash: true,
 	}),
 	function (req, res) {
+		req.flash('success_msg', 'Você está logado')		
 		res.redirect(req.query.ref || '/')
 	}
 )
 
 router.get('/logout', function (req, res) {
 	req.logout();
-	req.flash('success_msg', 'voçê está deslogado')
+	req.flash('success_msg', 'Você está deslogado')
 	res.redirect('/users/login')
 })
 
