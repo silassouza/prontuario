@@ -18,9 +18,8 @@
 
 
     <div class="forms">
-        <form method="POST" action="/cadastro/adulto">
+        <form>
             <input type="hidden" name="_id" />
-            <input type="hidden" name="index" value="{{index}}" />
             <fieldset>
                 {{>adulto1}}
             </fieldset>
@@ -32,45 +31,58 @@
 </div>
 
 <script>
-    $("input[filter=idade]").mask("000")
-    $("input[filter=data]").mask("00/00/0000")
-    $("input[filter=cpf]").mask('000.000.000-00', { reverse: true })
-    $("input[filter=cep]").mask('00000-000')
-    $("input[filter=phone]").mask(
-        function (val) {
-            return val.replace(/\D/g, '').length === 11 
-                ? '(00) 00000-0000' 
-                : '(00) 0000-00009';
-        },
-        {
-            onKeyPress: function (val, e, field, options) {
-                field.mask(SPMaskBehavior.apply({}, arguments), options);
+
+    $(function () {
+        $('form>fieldset:eq(1)').hide()
+
+        $("input[filter=idade]").mask("000")
+        $("input[filter=data]").mask("00/00/0000")
+        $("input[filter=cpf]").mask('000.000.000-00', { reverse: true })
+        $("input[filter=cep]").mask('00000-000')
+        $("input[filter=phone]").mask(
+            function (val) {
+                return val.replace(/\D/g, '').length === 11
+                    ? '(00) 00000-0000'
+                    : '(00) 0000-00009';
+            },
+            {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            });
+
+        $("textarea[maxlength]").on("propertychange input", function () {
+            if (this.value.length > this.maxlength) {
+                this.value = this.value.substring(0, this.maxlength);
             }
         });
 
-    $("textarea[maxlength]").on("propertychange input", function () {
-        if (this.value.length > this.maxlength) {
-            this.value = this.value.substring(0, this.maxlength);
-        }
-    });
-
-    $(function () {
-        $('form>fieldset:eq(0)').hide();
-        $('form>fieldset:eq(1)').hide();
-        $('form>fieldset:eq({{index}})').show();
-        $(document).on('click', '#next', function (e) {
+        $("form button").click(function(e){
+            e.preventDefault();
+            var data = $("form").serialize();
+            console.log(data)
+            $.post("cadastro/adulto", data)
+                .done(function(data) {
+                    alert( "success:"+data );
+                })
+                .fail(function() {
+                    alert( "error" );
+                })
+            
+        })
+        
+        $('#next').click(function (e) {
             e.preventDefault();
             var form = $('form>fieldset');
             form.filter(':eq(0)').hide()
             form.filter(':eq(1)').show()
-            $("input[name=index]").val(1);
         })
-        $(document).on('click', '#previous', function (e) {
+
+        $('#previous').click(function (e) {
             e.preventDefault();
             var form = $('form>fieldset');
             form.filter(':eq(0)').show()
             form.filter(':eq(1)').hide()
-            $("input[name=index]").val(0);
         })
     })
 </script>

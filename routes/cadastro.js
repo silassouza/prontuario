@@ -1,5 +1,4 @@
 
-
 var express = require('express')
 
 var estados = require('../models/enums/estados')
@@ -20,6 +19,15 @@ function fillLists(state){
 	state.sexos = sexos.list()
 }
 
+function clean(obj) {
+	for (var propName in obj) { 
+	  if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
+		delete obj[propName];
+		
+	  }
+	}
+  }
+
 router.get('/adulto', function (req, res) {
 	var state = { index: 0 }
 	fillLists(state)
@@ -29,8 +37,9 @@ router.get('/adulto', function (req, res) {
 router.post('/adulto', function (req, res) {
 
 	var state = req.body;
-	
+	state.userEmail = req.user.email;
 	fillLists(state)
+	clean(state)
 	
 	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
 	req.checkBody('idade', 'O campo Idade é obrigatório').notEmpty()
@@ -43,19 +52,21 @@ router.post('/adulto', function (req, res) {
 
 	var errors = req.validationErrors()
 	if (errors) {
-		state.errors = errors	
-		return res.render('adulto', state)
+		req.getValidationResult().throw();
 	} 
 
 	var paciente = new Paciente(state)
 
 	paciente.save(function (err, paciente) {
 		if (err) {
-			req.flash('error_msg', err.message)
+			state.errors = [];
+			state.errors.push(err);
+			res.render('adulto', state)
 		} else {
 			req.flash('success_msg', 'Paciente cadastrado com sucesso')
+			res.render('adulto', state)
 		}
-		res.render('adulto', state)
+		
 	})
 })
 

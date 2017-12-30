@@ -13,14 +13,14 @@ var routes = require('./routes/index')
 var users = require('./routes/users')
 var cadastro = require('./routes/cadastro')
 var localStrategy = require('./auth/localStrategy')
-var middlewares = require('./middlewares')
+var middl = require('./middlewares')
 
 // Init App
 var app = express()
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'))
-app.engine('.hbs', exphbs(middlewares.expressHandlebarsOptions))
+app.engine('.hbs', exphbs(middl.expressHandlebarsOptions))
 app.set('view engine', '.hbs')
 
 // BodyParser Middleware
@@ -39,14 +39,19 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Express Validator
-app.use(expressValidator(middlewares.expressValidatorOptions))
+app.use(expressValidator(middl.expressValidatorOptions))
 
 // Connect Flash
 app.use(flash())
 
 // Global Vars
-app.use(middlewares.setMessages)
-app.use(middlewares.ensureAuth)
+app.use(middl.setMessages)
+app.use(middl.ensureAuth)
+
+//Error handling
+// app.use(middl.logErrors)
+// app.use(middl.clientErrorHandler)
+// app.use(middl.errorHandler)
 
 app.use('/', routes)
 app.use('/users', users)

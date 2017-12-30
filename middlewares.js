@@ -7,7 +7,7 @@ module.exports = {
             '/users/logout',
             '/users/register'
         ]
-        
+
         if (ignore.indexOf(req.path) > -1 || req.isAuthenticated()) {
             return next()
         } else {
@@ -40,16 +40,16 @@ module.exports = {
             };
         },
         customValidators: {
-            isDate: function(value) {
-                if(!value) return true;
+            isDate: function (value) {
+                if (!value) return true;
                 return moment(value, "DD/MM/YYYY", true).isValid()
             }
-         }
+        }
     },
 
-    expressHandlebarsOptions: { 
-        defaultLayout:'layout', 
-        extname: ".hbs", 
+    expressHandlebarsOptions: {
+        defaultLayout: 'layout',
+        extname: ".hbs",
         helpers: {
             selected: function (option, value) {
                 if (option == value) {
@@ -58,6 +58,24 @@ module.exports = {
                     return null;
                 }
             }
-        } 
-    }
+        }
+    },
+
+    // logErrors: function (err, req, res, next) {
+    //     console.error(err)
+    //     next(err)
+    // },
+
+    // clientErrorHandler: function (err, req, res, next) {
+    //     if (req.xhr) {
+    //         res.status(500).send({ error: process.env.NODE_ENV === 'prod' ? 'Something failed!' : err })
+    //     } else {
+    //         next(err)
+    //     }
+    // },
+
+    // errorHandler: function (err, req, res, next) {
+    //     res.status(500)
+    //     res.render('error', { error: err })
+    // }
 }

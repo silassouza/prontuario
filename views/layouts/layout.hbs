@@ -3,17 +3,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html charset=utf-8" />
     <title>Emilly Lins - Psicóloga</title>
     <meta name="author" content="Sérgio" />
     <link href="/css/bootstrap.css" type="text/css" rel="Stylesheet" />
     <link href="/css/style.css" type="text/css" rel="Stylesheet" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    
+
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/jquery-1.11.3.js"></script>
     <script type="text/javascript" src="/js/jquery.mask.js"></script>
+
+    <script>
+
+        $(document).on('click', '.alert .close', function (e) {
+            $(this).siblings().remove()
+            $(this).parent().hide()
+        })
+
+        $.ajaxSetup({
+            global: false,
+            statusCode: {
+                401: function () {
+                    //Redirect to the login window if the user is unauthorized
+                    window.location.href = "/login"
+                }
+            },
+            error: handleError
+        })
+
+        function handleError(req, st, err) {
+            var div = $("<div>")
+            if (Array.isArray(req.responseJSON)) {
+                var ul =  $("<ul>").appendTo(div)
+                for (var i in req.responseJSON) {
+                    var li = $("<li>").appendTo(ul)
+                    li.html(req.responseJSON[i])
+                }
+
+            } else {
+                div.html(req.responseText)
+            }
+            $("#ajax-errors>div").remove()
+            $("#ajax-errors").append(div).show()
+        }
+
+
+    </script>
 </head>
 
 <body>
@@ -27,12 +64,12 @@
         {{error_msg}}
         <a href="#close" class="icon-remove"></a>
     </div>
-    {{/if}} {{#if error}}
-    <div class="alert alert-danger">
-        {{error}}
-        <a href="#close" class="icon-remove"></a>
+    {{/if}}
+
+    <div class="alert alert-danger" id="ajax-errors" style="display: none">
+        <button type="button" class="close">×</button>
     </div>
-    {{/if}} 
+
     {{{body}}}
 </body>
 
