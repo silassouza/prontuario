@@ -53,6 +53,7 @@ app.use(middl.ensureAuth)
 // app.use(middl.clientErrorHandler)
 // app.use(middl.errorHandler)
 
+
 app.use('/', routes)
 app.use('/users', users)
 app.use('/cadastro', cadastro)
