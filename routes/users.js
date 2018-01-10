@@ -49,7 +49,7 @@ router.post('/login',
 	}),
 	function (req, res) {
 		req.flash('success_msg', 'Você está logado')		
-		res.redirect(req.query.ref || '/')
+		res.redirect('/')
 	}
 )
 

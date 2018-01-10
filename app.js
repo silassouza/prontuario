@@ -12,7 +12,7 @@ var db = require('./models/db')
 var routes = require('./routes/index')
 var users = require('./routes/users')
 var cadastro = require('./routes/cadastro')
-var localStrategy = require('./auth/localStrategy')
+var localStrategy = require('./authentication')
 var middl = require('./middlewares')
 
 // Init App

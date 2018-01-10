@@ -23,7 +23,6 @@ function clean(obj) {
 	for (var propName in obj) { 
 	  if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
 		delete obj[propName];
-		
 	  }
 	}
   }
@@ -41,15 +40,10 @@ router.post('/adulto', function (req, res) {
 	fillLists(state)
 	clean(state)
 	
-	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
-	req.checkBody('idade', 'O campo Idade é obrigatório').notEmpty()
+	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()	
 	req.checkBody('dataNascimento', 'O campo Data de Nascimento é obrigatório').notEmpty()
-	req.checkBody('sexo', 'O campo Sexo é obrigatório').notEmpty()
-	req.checkBody('sexo', 'O campo Sexo é inválido').isIn(sexos.keys())
-	req.checkBody('naturalidade', 'O campo Naturalidade é obrigatório').notEmpty()
 	req.checkBody('dataEntrada', 'O campo Data de entrada é obrigatório').notEmpty()
-	req.checkBody('dataEntrada', 'O campo Data de entrada é inválido').isDate()
-
+	
 	var errors = req.validationErrors()
 	if (errors) {
 		req.getValidationResult().throw();
