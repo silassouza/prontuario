@@ -1,4 +1,5 @@
 var HashMap = require('hashmap');
+var util = require('./util');
 
 var estados = module.exports = new HashMap()
     .set("AC", "AC")
@@ -29,10 +30,4 @@ var estados = module.exports = new HashMap()
     .set("SE", "SE")
     .set("TO", "TO")
     
-estados.list = function () {
-    var list = []
-    this.forEach(function (value, key) {
-        list.push({ key, value })
-    })
-    return list
-}
+estados.list = util.list.bind(estados)

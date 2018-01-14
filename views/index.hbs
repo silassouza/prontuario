@@ -1,37 +1,4 @@
 <div id="main">
-
-    <form method="POST" action="/success">
-        <button>success</button>
-    </form>
-    <form method="POST" action="/error1">
-        <button>error 1</button>
-    </form>
-    <form method="POST" action="/error2">
-        <button>error 2</button>
-    </form>
-    <script>
-        $(function () {
-
-            $("form button").click(function (e) {
-                e.preventDefault();
-                var form = $(this).parent()
-                var url = form.attr("action")
-                $.post(url, form.serialize())
-                    .then(function (data) {
-                        console.log("success");
-                    })
-                    .fail(function (req, st, err) {
-                        if (Array.isArray(req.responseJSON)) {
-                            for (var i in req.responseJSON)
-                                console.log(req.responseJSON[i]);
-                        } else {
-                            console.log(req.responseText);
-                        }
-                    })
-            })
-        })
-    </script>
-
     <a href="/">
         <img src="img/logoG.png" id="logoG" />
     </a>

@@ -6,17 +6,6 @@
         <a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
     </div>
 
-    {{#if errors}}
-    <div class="alert alert-danger">
-        <ul>
-            {{#each errors}}
-            <li>{{msg}}</li>
-            {{/each}}
-        </ul>
-    </div>
-    {{/if}}
-
-
     <div class="forms">
         <form>
             <input type="hidden" name="_id" />
@@ -26,6 +15,12 @@
             <fieldset>
                 {{>adulto2}}
             </fieldset>
+            
+            <button type="submit" class="btnAzul">SALVAR</button>
+            <a class="btnAzul" href="/">CANCELAR</a>
+            <a id="previous" class="btnAzul">ANTERIOR</a>
+            <a id="next" class="btnAzul">PRÓXIMO</a>
+
         </form>
     </div>
 </div>
@@ -35,19 +30,14 @@
     $(function () {
         $('form>fieldset:eq(1)').hide()
 
-        $("form button").click(function(e){
+        $("form button").click(function (e) {
             e.preventDefault();
             var data = $("form").serialize();
-            console.log(data)
-            $.post("cadastro/adulto", data)
-                .done(function(data) {
-                    alert( "success:"+data );
-                })
-                .fail(function() {
-                    alert( "error" );
-                })
+            $.post("/cadastro/adulto", data, function () {
+                window.location = "/";
+            })
         })
-        
+
         $('#next').click(function (e) {
             e.preventDefault();
             var form = $('form>fieldset');

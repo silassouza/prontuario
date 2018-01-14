@@ -9,9 +9,9 @@ var sexos = require('./enums/sexos').keys()
 var userSchema = new mongoose.Schema({
     userEmail: { type: String, required: true },
     nome: { type: String, required: true },
-    idade: { type: String, required: true },
-    dataNascimento: { type: Date, required: true },
-    sexo: { type: String, enum: sexos, required: true },
+    idade: { type: String },
+    dataNascimento: { type: Date },
+    sexo: { type: String, enum: sexos },
     naturalidade: { type: String },
     cpf: { type: String },
     profissao: { type: String },

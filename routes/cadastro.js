@@ -8,59 +8,48 @@ var religioes = require('../models/enums/religioes')
 var sexos = require('../models/enums/sexos')
 
 var Paciente = require('../models/paciente')
+var mapper = require('../mappers/adulto.map')
 
 var router = express.Router()
 
-function fillLists(state){
-	state.estados = estados.list()
-	state.estadosCivis = estadosCivis.list()
-	state.respostas = respostas.list()
-	state.religioes = religioes.list()
-	state.sexos = sexos.list()
-}
-
-function clean(obj) {
-	for (var propName in obj) { 
-	  if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
-		delete obj[propName];
-	  }
-	}
-  }
-
 router.get('/adulto', function (req, res) {
-	var state = { index: 0 }
-	fillLists(state)
-	res.render('adulto', state)
+
+	var model = {}
+
+	model.estados = estados.list()
+	model.estadosCivis = estadosCivis.list()
+	model.respostas = respostas.list()
+	model.religioes = religioes.list()
+	model.sexos = sexos.list()
+
+	res.render('adulto', model)
 })
 
 router.post('/adulto', function (req, res) {
 
-	var state = req.body;
-	state.userEmail = req.user.email;
-	fillLists(state)
-	clean(state)
-	
-	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()	
-	req.checkBody('dataNascimento', 'O campo Data de Nascimento é obrigatório').notEmpty()
-	req.checkBody('dataEntrada', 'O campo Data de entrada é obrigatório').notEmpty()
+	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
+	req.checkBody('dataNascimento', 'O campo Data de Nascimento é inválido').isDate()
+	req.checkBody('dataEntrada', 'O campo Data de Entrada é inválido').isDate()
+	req.checkBody('dataConsultaAnterior', 'O campo Data de Consulta Anterior é inválido').isDate()
 	
 	var errors = req.validationErrors()
 	if (errors) {
-		req.getValidationResult().throw();
+		res.status(500)
+		return res.send(errors.map(function(e){ return e.msg }))
 	} 
 
-	var paciente = new Paciente(state)
+	var model = mapper.map(req)
+
+	var paciente = new Paciente(model)
 
 	paciente.save(function (err, paciente) {
 		if (err) {
-			state.errors = [];
-			state.errors.push(err);
-			res.render('adulto', state)
-		} else {
-			req.flash('success_msg', 'Paciente cadastrado com sucesso')
-			res.render('adulto', state)
+			res.status(500)
+			return res.send(err)
 		}
-		
+
+		req.flash('success_msg', 'Paciente cadastrado com sucesso')
+		res.end()
 	})
 })
 

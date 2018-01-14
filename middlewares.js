@@ -42,7 +42,7 @@ module.exports = {
         customValidators: {
             isDate: function (value) {
                 if (!value) return true;
-                return moment(value, "DD/MM/YYYY", true).isValid()
+                return moment(value, "DD/MM/YYYY").isValid()
             }
         }
     },
