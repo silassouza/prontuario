@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "sistema de prontuário",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified (not a eror)\" && exit 1",
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/silassouza/prontuario.git"
