@@ -2,10 +2,10 @@
   "name": "prontuario",
   "version": "1.0.0",
   "description": "sistema de prontuário",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified (not a eror)\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,10 @@
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5"
   },
   "devDependencies": {
     "nodemon": "^1.14.11"
