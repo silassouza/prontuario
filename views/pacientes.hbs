@@ -1,0 +1,30 @@
+<div id="main">
+    <div class="topo">
+        <a href="/" title="Home" id="btnHome"></a>
+        <h1>Pacientes</h1>
+
+        <a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
+    </div>
+
+    <div class="forms">
+        <form>
+            <!-- ESQUERDA -->
+            <div id="left">
+                {{>pacientes this}}
+                
+                <div id="menuPacientes">
+                    <a title="Abrir Paciente" class="btnPaciente"></a>
+                    <a title="Abrir Evolução" class="btnEvol"></a>
+                    <a title="Abrir Arquivados" class="btnArq"></a>
+                </div>
+            </div>
+
+            <!-- DIREITA -->
+            <div id="right">
+                <div class="divTop">
+                    <evolucao />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

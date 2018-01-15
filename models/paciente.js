@@ -44,7 +44,8 @@ var userSchema = new mongoose.Schema({
     dinamicaEscolarProfissional: { type: String },
     historicoDoenca: { type: String, enum: respostas },
     historicoDoencaDetalhe: { type: String },
-    avaliacaoPrima: { type: String }
+    avaliacaoPrima: { type: String },
+    dataArquivamento: { type: Date },
 })
 
 var Paciente = mongoose.model('Paciente', userSchema)

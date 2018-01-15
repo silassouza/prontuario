@@ -1,0 +1,21 @@
+<input type="text" id="busca" maxlength="" class="M busca">
+
+<div id="divPacientes">
+    <ul>
+        {{#each pacientes}}
+        <li title="{{nome}}">
+            {{nome}}
+            <div class="btnArq" title="Arquivar" id="{{_id}}"></div>
+        </li>
+        {{/each}} {{!-- --}}
+    </ul>
+</div>
+
+<script>
+    $(function () {
+        $("#divPacientes ul li").click(function () {
+            $(this).siblings().removeClass("select");
+            $(this).toggleClass("select");
+        });
+    })
+</script>

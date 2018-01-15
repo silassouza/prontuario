@@ -16,6 +16,7 @@ module.exports = {
         })
 
         model.userEmail = req.user.email
+        model.arquivado = false
 
         return model
     }

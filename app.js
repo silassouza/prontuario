@@ -9,9 +9,12 @@ var session = require('express-session')
 var expressValidator = require('express-validator')
 
 var db = require('./models/db')
+
 var routes = require('./routes/index')
 var users = require('./routes/users')
 var cadastro = require('./routes/cadastro')
+var consultas = require('./routes/consultas')
+
 var localStrategy = require('./authentication')
 var middl = require('./middlewares')
 
@@ -57,6 +60,7 @@ app.use(middl.ensureAuth)
 app.use('/', routes)
 app.use('/users', users)
 app.use('/cadastro', cadastro)
+app.use('/consultas', consultas)
 
 // Set Port
 app.set('port', (process.env.PORT || 3000))
