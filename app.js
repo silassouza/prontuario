@@ -58,8 +58,8 @@ app.use(middl.ensureAuth)
 
 var route = express.Router();
 
-// All our services are under the /api context
-app.use('/api', route);
+// All our services are under the /ping context
+app.use('/ping', route);
 
 // Start defining routes for our app/microservice
 
