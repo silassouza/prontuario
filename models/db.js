@@ -1,13 +1,16 @@
 var mongoose = require('mongoose');
 
 var mongoUser =  process.env.MONGODB_USER,
-    mongoDatabase = process.env.MONGODB_DATABASE,
     mongoPassword = process.env.MONGODB_PASSWORD,
+    mongoDatabase = process.env.MONGODB_DATABASE,
     mongoHost = process.env.APP_SERVICE_HOST,
     mongoPort = process.env.APP_SERVICE_PORT,
     mongoURL = 'mongodb://';
 
-mongoURL += mongoUser + ':' + mongoPassword + '@';
+if(mongoUser && mongoPassword){
+  mongoURL += mongoUser + ':' + mongoPassword + '@';
+}
+
 mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
 
 mongoose.Promise = global.Promise;
