@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 var mongoUser =  process.env.MONGODB_USER,
     mongoPassword = process.env.MONGODB_PASSWORD,
     mongoDatabase = process.env.MONGODB_DATABASE,
-    mongoHost = process.env.APP_SERVICE_HOST,
-    mongoPort = process.env.APP_SERVICE_PORT,
+    mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+    mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
+    mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
     mongoURL = 'mongodb://';
 
 if(mongoUser && mongoPassword){
