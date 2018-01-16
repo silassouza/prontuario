@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
 
+console.log(process.env)
+
 var mongoUser =  process.env.MONGODB_USER,
     mongoPassword = process.env.MONGODB_PASSWORD,
     mongoDatabase = process.env.MONGODB_DATABASE,
-    mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+    mongoServiceName = process.env.DATABASE_SERVICE_NAME 
+      ? process.env.DATABASE_SERVICE_NAME.toUpperCase()
+      : "PRONTUARIODB",
     mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
     mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
     mongoURL = 'mongodb://';
