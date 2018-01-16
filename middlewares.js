@@ -3,6 +3,7 @@ var moment = require('moment')
 module.exports = {
     ensureAuth: function (req, res, next) {
         var ignore = [
+            '/ping',
             '/users/login',
             '/users/logout',
             '/users/register'
