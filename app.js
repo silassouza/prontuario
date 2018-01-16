@@ -56,6 +56,17 @@ app.use(middl.ensureAuth)
 // app.use(middl.clientErrorHandler)
 // app.use(middl.errorHandler)
 
+var route = express.Router();
+
+// All our services are under the /api context
+app.use('/api', route);
+
+// Start defining routes for our app/microservice
+
+// A route that dumps hostname information from pod
+route.get('/', function(req, res) {
+    res.send('Hi! I am running on host ->');
+});
 
 app.use('/', routes)
 app.use('/users', users)
