@@ -81,7 +81,8 @@ var port = process.env.PORT || 8080
 //var address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
  
 app.listen(port, function () {
-  console.log( "Listening on " + address + ", port " + port )
+  //console.log( "Listening on " + address + ", port " + port )
+  console.log( "Listening on port " + port )
 });
 
 module.exports = app;
