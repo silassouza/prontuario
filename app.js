@@ -77,10 +77,10 @@ app.use('/cadastro', cadastro)
 app.use('/consultas', consultas)
 
 // Set Port
-var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080
-var address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+var port = process.env.PORT || 8080
+//var address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
  
-app.listen(port, address, function () {
+app.listen(port, function () {
   console.log( "Listening on " + address + ", port " + port )
 });
 
