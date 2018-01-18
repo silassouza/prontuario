@@ -41,6 +41,7 @@
     "mocha": "^2.4.5"
   },
   "devDependencies": {
+    "dotenv": "^4.0.0",
     "nodemon": "^1.14.11"
   }
 }

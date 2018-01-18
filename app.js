@@ -1,3 +1,6 @@
+try{ require('dotenv').config() } catch(ex){}
+var os = require('os')
+
 var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
