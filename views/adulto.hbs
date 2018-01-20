@@ -8,7 +8,7 @@
 
     <div class="forms">
         <form>
-            <input type="hidden" name="_id" />
+            <input type="hidden" name="_id"  value="{{_id}}" />
             <fieldset>
                 {{>adulto1}}
             </fieldset>
@@ -29,6 +29,7 @@
 
     $(function () {
         $('form>fieldset:eq(1)').hide()
+        $('#previous').hide()
 
         $("form button").click(function (e) {
             e.preventDefault();
@@ -43,6 +44,8 @@
             var form = $('form>fieldset');
             form.filter(':eq(0)').hide()
             form.filter(':eq(1)').show()
+            $('#previous').show()
+            $('#next').hide()
         })
 
         $('#previous').click(function (e) {
@@ -50,6 +53,8 @@
             var form = $('form>fieldset');
             form.filter(':eq(0)').show()
             form.filter(':eq(1)').hide()
+            $('#next').show()
+            $('#previous').hide()
         })
     })
 </script>

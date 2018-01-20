@@ -1,4 +1,5 @@
 var HashMap = require('hashmap');
+var  util = require('../util')
 
 var religioes = module.exports = new HashMap()
     .set("ADV", "Adventismo")
@@ -22,13 +23,4 @@ var religioes = module.exports = new HashMap()
     .set("UMB", "Umbanda")
     .set("XAM", "Xambá")
 
-religioes.list = function () {
-    var list = []
-    this.forEach(function (value, key) {
-        list.push({ key, value })
-    })
-    return list
-}
-
-
-
+religioes.list = util.list.bind(religioes)

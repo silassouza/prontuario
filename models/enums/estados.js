@@ -1,5 +1,5 @@
 var HashMap = require('hashmap');
-var util = require('./util');
+var util = require('../util');
 
 var estados = module.exports = new HashMap()
     .set("AC", "AC")

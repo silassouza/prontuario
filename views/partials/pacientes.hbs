@@ -3,7 +3,7 @@
 <div id="divPacientes">
     <ul>
         {{#each pacientes}}
-        <li title="{{nome}}">
+        <li title="{{nome}}" id="{{_id}}">
             {{nome}}
             <div class="btnArq" title="Arquivar" id="{{_id}}"></div>
         </li>
@@ -12,10 +12,46 @@
 </div>
 
 <script>
+
+    var timer
+    $("#busca").keyup(function (e) {
+        e.preventDefault()
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            find(this.value)
+        }.bind(this), 500)
+    })
+
+    function find(nome) {
+        $.get('/consultas/pacientes/json', { nome }, function (data) {
+
+            var ul = $("#divPacientes ul")
+            ul.children().remove()
+
+            data.map(function (p) {
+                var li = $('<li></li>', {
+                    'title': p.nome,
+                    'id': p._id
+                }).html(p.nome).appendTo(ul)
+
+                var div = $('<div class="btnArq" title="Arquivar"></div>', {
+                    'id': p._id
+                }).appendTo(li)
+            })
+        })
+    }
+
     $(function () {
-        $("#divPacientes ul li").click(function () {
+        var selecteId = null;
+        $(document).on('click', "#divPacientes ul li", function () {
             $(this).siblings().removeClass("select");
             $(this).toggleClass("select");
+            var selectedId = $(this).attr("id");
+            console.log(selectedId)
+            $('#divPacientes').attr('selecteId', function(i, value){
+                console.log(value)
+                return value == selectedId ? null : selectedId
+            })
         });
     })
 </script>

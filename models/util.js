@@ -5,5 +5,9 @@ module.exports = {
             list.push({ key, value })
         })
         return list
+    },
+    padLeft: function(value, pad = "0000"){
+        var str = "" + value
+        return pad.substring(0, pad.length - str.length) + str
     }
 }

@@ -1,6 +1,4 @@
-var mongoose = require('mongoose');
-
-console.log(process.env)
+var mongoose = require('mongoose')
 
 var mongoUser =  process.env.MONGODB_USER,
     mongoPassword = process.env.MONGODB_PASSWORD,

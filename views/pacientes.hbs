@@ -11,7 +11,7 @@
             <!-- ESQUERDA -->
             <div id="left">
                 {{>pacientes this}}
-                
+
                 <div id="menuPacientes">
                     <a title="Abrir Paciente" class="btnPaciente"></a>
                     <a title="Abrir Evolução" class="btnEvol"></a>
@@ -28,3 +28,14 @@
         </form>
     </div>
 </div>
+<script>
+    $(function () {
+        $('.btnPaciente').click(function () {
+            var selectedId = $('#divPacientes').attr('selecteId')
+            if (selectedId) {
+                console.log(selectedId)
+                location.href = "/cadastro/adulto/" + selectedId
+            }
+        })
+    })
+</script>

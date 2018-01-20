@@ -8,12 +8,13 @@
     <meta name="author" content="Sérgio" />
     <link href="/css/bootstrap.css" type="text/css" rel="Stylesheet" />
     <link href="/css/style.css" type="text/css" rel="Stylesheet" />
+    <link href="/css/jquery.loading.min.css" type="text/css" rel="Stylesheet" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
-
-    <script type="text/javascript" src="/js/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/jquery.mask.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.loading.min.js"></script>
 
     <script>
 
@@ -27,16 +28,27 @@
             statusCode: {
                 401: function () {
                     //Redirect to the login window if the user is unauthorized
-                    window.location.href = "/login"
+                    location.href = "/login"
                 }
             },
+            beforeSend: function () {
+                $('body').loading({ stoppable: true });
+            },
+            complete: function () {
+                $('body').loading("stop");
+            },
+            success: function () {
+                $('body').loading("stop");
+            },
             error: handleError
+
         })
 
         function handleError(req, st, err) {
+            $('body').loading("stop");
             var div = $("<div>")
             if (Array.isArray(req.responseJSON)) {
-                var ul =  $("<ul>").appendTo(div)
+                var ul = $("<ul>").appendTo(div)
                 for (var i in req.responseJSON) {
                     var li = $("<li>").appendTo(ul)
                     li.html(req.responseJSON[i])
@@ -59,20 +71,25 @@
         {{success_msg}}
         <a href="#close" class="icon-remove"></a>
     </div>
-    {{/if}} 
-    {{#if error_msg}}
+    {{/if}} {{#if error_msg}}
     <div class="alert alert-danger">
         {{error_msg}}
         <a href="#close" class="icon-remove"></a>
     </div>
+    {{/if}} {{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+        <a href="#close" class="icon-remove"></a>
+    </div>
     {{/if}}
+
 
     <div class="alert alert-danger" id="ajax-errors" style="display: none">
         <button type="button" class="close">×</button>
     </div>
 
     {{{body}}}
-    
+
 </body>
 
 <script>
@@ -82,8 +99,8 @@
     $("input[filter=cep]").mask('00000-000')
 
     var SPMaskBehavior = function (val) {
-        return val.replace(/\D/g, '').length === 11 
-            ? '(00) 00000-0000' 
+        return val.replace(/\D/g, '').length === 11
+            ? '(00) 00000-0000'
             : '(00) 0000-00009'
     }
 

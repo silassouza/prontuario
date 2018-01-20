@@ -1,13 +1,17 @@
 var mongoose = require('mongoose')
+var autoIncrement = require('mongoose-auto-increment-fix')
 
 var estados = require('./enums/estados').keys()
 var estadosCivis = require('./enums/estadosCivis').keys()
 var respostas = require('./enums/respostas').keys()
 var religioes = require('./enums/religioes').keys()
 var sexos = require('./enums/sexos').keys()
+var util = require('./util')
 
-var userSchema = new mongoose.Schema({
+autoIncrement.initialize(mongoose.connection)
+var schema = new mongoose.Schema({
     userEmail: { type: String, required: true },
+    _numero: { type: Number, required: true },
     nome: { type: String, required: true },
     idade: { type: String },
     dataNascimento: { type: Date },
@@ -48,7 +52,13 @@ var userSchema = new mongoose.Schema({
     dataArquivamento: { type: Date },
 })
 
-var Paciente = mongoose.model('Paciente', userSchema)
+schema.plugin(autoIncrement.plugin,  { model: 'Paciente',  field: '_numero', startAt: 1 });
+
+schema.virtual('numero').get(function(){
+    return util.padLeft(this._numero)
+})
+
+var Paciente = mongoose.model('Paciente', schema)
 
 module.exports = Paciente
 

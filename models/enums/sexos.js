@@ -1,16 +1,8 @@
 var HashMap = require('hashmap');
+var  util = require('../util')
 
 var sexos = module.exports = new HashMap()
     .set("M", "M")
     .set("F", "F")
 
-sexos.list = function () {
-    var list = []
-    this.forEach(function (value, key) {
-        list.push({ key, value })
-    })
-    return list
-}
-
-
-
+sexos.list = util.list.bind(sexos)

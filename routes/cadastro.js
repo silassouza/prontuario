@@ -1,28 +1,39 @@
 
 var express = require('express')
 
-var estados = require('../models/enums/estados')
-var estadosCivis = require('../models/enums/estadosCivis')
-var respostas = require('../models/enums/respostas')
-var religioes = require('../models/enums/religioes')
-var sexos = require('../models/enums/sexos')
-
+var Util = require('../models/util')
 var Paciente = require('../models/paciente')
 var mapper = require('../mappers/adulto.map')
 
 var router = express.Router()
 
-router.get('/adulto', function (req, res) {
+router.get('/adulto/:id', function (req, res) {
 
+	Paciente.findById(req.params.id, function (err, model) {
+
+		if (err || !model) {
+			req.flash('error_msg', 'Paciente não encontrado')
+			return res.redirect("/")
+		}
+
+		var state = mapper.toState(model)
+
+		res.render('adulto', state)
+	})
+})
+
+router.get('/adulto', function (req, res) {
 	var model = {}
 
-	model.estados = estados.list()
-	model.estadosCivis = estadosCivis.list()
-	model.respostas = respostas.list()
-	model.religioes = religioes.list()
-	model.sexos = sexos.list()
+	Paciente.nextCount(function (err, count) {
+		if (err) {
+			return res.render('adulto', { msg_error: err })
+		}
+		var state = mapper.toState(model)
+		state.numero = Util.padLeft(count)
 
-	res.render('adulto', model)
+		res.render('adulto', state)
+	})
 })
 
 router.post('/adulto', function (req, res) {
@@ -31,26 +42,38 @@ router.post('/adulto', function (req, res) {
 	req.checkBody('dataNascimento', 'O campo Data de Nascimento é inválido').isDate()
 	req.checkBody('dataEntrada', 'O campo Data de Entrada é inválido').isDate()
 	req.checkBody('dataConsultaAnterior', 'O campo Data de Consulta Anterior é inválido').isDate()
-	
+
 	var errors = req.validationErrors()
 	if (errors) {
 		res.status(500)
-		return res.send(errors.map(function(e){ return e.msg }))
-	} 
+		return res.send(errors.map(function (e) { return e.msg }))
+	}
 
-	var model = mapper.map(req)
+	var model = mapper.toModel(req)
 
 	var paciente = new Paciente(model)
 
-	paciente.save(function (err, paciente) {
-		if (err) {
-			res.status(500)
-			return res.send(err)
+	Paciente.findOneAndUpdate({ _id: paciente._id }, paciente,
+		{ upsert: true, new: true, runValidators: true },
+		function (err, paciente) {
+			if (err) {
+				res.status(500)
+				return res.send(err)
+			}
+			req.flash('success_msg', 'Paciente cadastrado com sucesso')
+			res.end()
 		}
+	)
 
-		req.flash('success_msg', 'Paciente cadastrado com sucesso')
-		res.end()
-	})
+	// paciente.save(function (err, paciente) {
+	// 	if (err) {
+	// 		res.status(500)
+	// 		return res.send(err)
+	// 	}
+
+	// 	req.flash('success_msg', 'Paciente cadastrado com sucesso')
+	// 	res.end()
+	// })
 })
 
 router.get('/crianca', function (req, res) {
