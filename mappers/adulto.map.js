@@ -1,6 +1,7 @@
 var _ = require('underscore')
 var moment = require('moment')
 
+var util = require('../models/util')
 var estados = require('../models/enums/estados')
 var estadosCivis = require('../models/enums/estadosCivis')
 var respostas = require('../models/enums/respostas')
@@ -26,8 +27,8 @@ module.exports = {
         return model
     },
 
-    toState: function (state) {
-        var state = _.clone(state)
+    toState: function (model) {
+        var state = _.clone(model)
 
         state.estados = estados.list()
         state.estadosCivis = estadosCivis.list()
@@ -36,13 +37,12 @@ module.exports = {
         state.sexos = sexos.list()
 
         _.each(state, function (value, key) {
-            if (!value) {
-                return
-            }
-            if (key.startsWith('data')) {
+            if (value && key.startsWith('data')) {
                 state[key] = moment(state[key]).format('DD/MM/YYYY')
             }
         })
+
+        state.numero = util.padLeft(state.numero)
 
         return state
     }

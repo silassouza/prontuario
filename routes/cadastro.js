@@ -51,30 +51,23 @@ router.post('/adulto', function (req, res) {
 
 	var model = mapper.toModel(req)
 
-	var paciente = new Paciente(model)
-
-	Paciente.findOneAndUpdate({ _id: paciente._id }, paciente,
-		{ upsert: true, new: true, runValidators: true },
-		function (err, paciente) {
-			if (err) {
-				res.status(500)
-				return res.send(err)
-			}
-			req.flash('success_msg', 'Paciente cadastrado com sucesso')
-			res.end()
+	var handleSave = function (err, data){
+		if (err) {
+			res.status(500)
+			return res.send(err)
 		}
-	)
+		req.flash('success_msg', 'Paciente cadastrado com sucesso')
+		res.end()
+	}
 
-	// paciente.save(function (err, paciente) {
-	// 	if (err) {
-	// 		res.status(500)
-	// 		return res.send(err)
-	// 	}
-
-	// 	req.flash('success_msg', 'Paciente cadastrado com sucesso')
-	// 	res.end()
-	// })
+	if (!model._id){
+        var paciente = new Paciente(model)
+        paciente.save(handleSave)
+    } else {
+        Paciente.findByIdAndUpdate(model._id, model, handleSave)
+    }
 })
+
 
 router.get('/crianca', function (req, res) {
 	res.render('crianca')
