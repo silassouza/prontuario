@@ -8,11 +8,24 @@ var CounterSchema = mongoose.Schema({
 var Counter = mongoose.model('Counter', CounterSchema);
 
 Counter.nextCount = function (model, callback) {
-    Counter.findOne({ model }, function (err, counter) {
+    Counter.findById({ _id: model }, function (err, counter) {
         if (err) return callback(err);
-        callback(null, counter === null ? 1 : counter.count + 1);
+        console.log({ model }) 
+        console.log(counter) 
+        callback(null, counter === null ? 1 : counter.seq + 1);
     });
 };
+
+Counter.updateCounter = function (model, doc, callback) {
+    Counter.findByIdAndUpdate({ _id: model }, { $inc: { seq: 1 } },
+        { new: true, upsert: true },
+        function (err, counter) {
+            if (err) return callback(err)
+            doc.numero = counter.seq
+            callback()
+        }
+    )
+}
 
 module.exports = Counter
 

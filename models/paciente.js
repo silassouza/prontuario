@@ -15,7 +15,7 @@ var schema = new mongoose.Schema({
     dataNascimento: { type: Date },
     sexo: { type: String, enum: sexos },
     naturalidade: { type: String },
-    cpf: { type: String, unique: true },
+    cpf: { type: String, trim: true, index: true, unique: true, sparse: true },
     profissao: { type: String },
     estadoCivil: { type: String, enum: estadosCivis },
     endereco: { type: String },
@@ -50,18 +50,6 @@ var schema = new mongoose.Schema({
     dataArquivamento: { type: Date },
 })
 
-schema.pre('save', function (next) {
-    var obj = this
-    counter.findByIdAndUpdate({ _id: 'Paciente' }, { $inc: { seq: 1 } },
-        { new: true, upsert: true },
-        function (error, counter) {
-            if (error)
-                return next(error)
-            obj.numero = counter.seq
-            next()
-        })
-})
-
 schema.post('save', function (error, doc, next) {
     if (error.name === 'MongoError' && error.code === 11000) {
         next(new Error('cpf deve ser único'));
@@ -72,8 +60,12 @@ schema.post('save', function (error, doc, next) {
 
 var Paciente = mongoose.model('Paciente', schema)
 
-Paciente.nextCount = function(callback){
+Paciente.nextCount = function (callback) {
     counter.nextCount('Paciente', callback)
+}
+
+Paciente.updateCounter = function (doc, callback) {
+    counter.updateCounter('Paciente', doc, callback)
 }
 
 module.exports = Paciente
