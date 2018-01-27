@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
-var counter = require('./counter')
+var async = require('async')
+var _ = require('underscore')
 
+var counter = require('./counter')
 var estados = require('./enums/estados').keys()
 var estadosCivis = require('./enums/estadosCivis').keys()
 var respostas = require('./enums/respostas').keys()
@@ -66,6 +68,22 @@ Paciente.nextCount = function (callback) {
 
 Paciente.updateCounter = function (doc, callback) {
     counter.updateCounter('Paciente', doc, callback)
+}
+
+Paciente.salvar = function (doc, callback){
+    if (!doc._id){
+        var model = new Paciente(doc)
+		Paciente.updateCounter(model, function(err){
+            if (err) return callback(err)
+            model.save(callback)
+		})
+    } else {
+        Paciente.findById(doc._id, function(err, model){
+            if (!model) return callback({ message: 'Paciente não encontrado' })
+            _.extend(model, doc)
+            model.save(callback)
+        })
+    }
 }
 
 module.exports = Paciente

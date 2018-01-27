@@ -19,7 +19,7 @@ router.get('/pacientes/json', function (req, res) {
     var query = {}
     
     if(req.query.nome)
-        query.nome = { $regex: '.*' + req.query.nome + '.*' }
+        query.nome = { $regex: new RegExp('.*' + req.query.nome + '.*', 'i') }
     
     Paciente.find(query, 'nome', function (err, pacientes) {
         if (err) {

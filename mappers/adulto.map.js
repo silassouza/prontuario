@@ -9,22 +9,22 @@ var religioes = require('../models/enums/religioes')
 var sexos = require('../models/enums/sexos')
 
 module.exports = {
-    toModel: function (req) {
-        var model = _.clone(req.body)
+    toJson: function (req) {
+        var json = _.clone(req.body)
 
-        _.each(model, function (value, key) {
+        _.each(json, function (value, key) {
             if (value === '') {
-                delete model[key]
+                delete json[key]
                 return
             }
             if (key.startsWith('data')) {
-                model[key] = moment(model[key], 'DD/MM/YYYY').valueOf()
+                json[key] = moment(json[key], 'DD/MM/YYYY').valueOf()
             }
         })
 
-        model.userEmail = req.user.email
+        json.userEmail = req.user.email
 
-        return model
+        return json
     },
 
     toState: function (model) {

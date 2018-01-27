@@ -43,29 +43,16 @@ router.post('/adulto', function (req, res) {
 		return res.send(errors.map(function (e) { return e.msg }))
 	}
 
-	var model = mapper.toModel(req)
+	var doc = mapper.toJson(req)
 
-	var handleSave = function (err, data){
+	Paciente.salvar(doc, function(err){
 		if (err) {
 			res.status(500)
 			return res.send(err.message)
 		}
-		req.flash('success_msg', 'Paciente cadastrado com sucesso')
+		req.flash('success_msg', 'Paciente salvo com sucesso')
 		res.end()
-	}
-
-	if (!model._id){
-		var paciente = new Paciente(model)
-		Paciente.updateCounter(paciente, function(err){
-			if (err) {
-				res.status(500)
-				return res.send(err.message)
-			}
-			paciente.save(handleSave)
-		})
-    } else {
-        Paciente.findByIdAndUpdate(model._id, model, handleSave)
-    }
+	})
 })
 
 
