@@ -42,13 +42,13 @@
     }
 
     $(function () {
-        var selecteId = null;
+        var selectedId = null;
         $(document).on('click', "#divPacientes ul li", function () {
             $(this).siblings().removeClass("select");
             $(this).toggleClass("select");
             var selectedId = $(this).attr("id");
             console.log(selectedId)
-            $('#divPacientes').attr('selecteId', function(i, value){
+            $('#divPacientes').attr('selectedId', function(i, value){
                 console.log(value)
                 return value == selectedId ? null : selectedId
             })

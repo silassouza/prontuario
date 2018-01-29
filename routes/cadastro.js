@@ -1,9 +1,11 @@
 
 var express = require('express')
+const { check, validationResult } = require('express-validator/check');
 
 var Util = require('../models/util')
 var Paciente = require('../models/paciente')
 var mapper = require('../mappers/adulto.map')
+var mddl = require('../middlewares')
 
 var router = express.Router()
 
@@ -30,19 +32,19 @@ router.get('/adulto', function (req, res) {
 	})
 })
 
-router.post('/adulto', function (req, res) {
-
-	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
-	req.checkBody('dataNascimento', 'O campo Data de Nascimento é inválido').isDate()
-	req.checkBody('dataEntrada', 'O campo Data de Entrada é inválido').isDate()
-	req.checkBody('dataConsultaAnterior', 'O campo Data de Consulta Anterior é inválido').isDate()
+router.post('/adulto',[
+	check('nome').not().isEmpty().withMessage('O campo Nome é obrigatório'),
+	check('dataNascimento').custom(mddl.custom.isDate).withMessage('O campo Data de Nascimento é inválido'),
+	check('dataEntrada').custom(mddl.custom.isDate).withMessage('O campo Data de Entrada é inválido'),
+	check('dataConsultaAnterior').custom(mddl.custom.isDate).withMessage('O campo Data de Consulta Anterior é inválido'),
+], function (req, res) {
 
 	var errors = req.validationErrors()
 	if (errors) {
 		res.status(500)
 		return res.send(errors.map(function (e) { return e.msg }))
 	}
-
+	
 	var doc = mapper.toJson(req)
 
 	Paciente.salvar(doc, function(err){

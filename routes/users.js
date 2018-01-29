@@ -2,6 +2,7 @@ var express = require('express')
 var passport = require('passport')
 
 var User = require('../models/user')
+const { check, validationResult } = require('express-validator/check');
 
 var router = express.Router()
 
@@ -10,18 +11,21 @@ router.get('/register', function (req, res) {
 	res.render('register')
 })
 
-router.post('/register', function (req, res) {
-	
-	req.checkBody('nome', 'O campo Nome é obrigatório').notEmpty()
-	req.checkBody('email', 'O campo Email é obrigatório').notEmpty()
-	req.checkBody('email', 'O campo Email está inválido').isEmail()
-	req.checkBody('senha', 'O campo Senha é obrigatório').notEmpty()
-	req.checkBody('senha', 'As senhas não estão iguais').equals(req.body.senha2)
+router.post('/register', [
+	check('nome').not().isEmpty().withMessage('O campo Nome é obrigatório'),
+	check('email').not().isEmpty().withMessage('O campo Email é obrigatório'),
+	check('email').isEmail().withMessage('O campo Email está inválido'),
+	check('senha').not().isEmpty().withMessage('O campo Senha é obrigatório'),
+	check('senha').isLength({ min: 4 }).withMessage('O campo Senha deve ter no mínimo 4 caracteres'),
+	check('senha').custom((value, { req }) => value === req.body.senha).withMessage('As senhas não estão iguais'),
+], function (req, res) {
 
-	var errors = req.validationErrors()
+	var errors = validationResult(req)
 
-	if (errors) {
-		res.render('register', { errors })
+	console.log(errors.array())
+
+	if (!errors.isEmpty()) {
+		res.render('register', { errors: errors.array() })
 	} else {
 
 		var newUser = new User(req.body)
@@ -48,7 +52,7 @@ router.post('/login',
 		failureFlash: true,
 	}),
 	function (req, res) {
-		req.flash('success_msg', 'Você está logado')		
+		req.flash('success_msg', 'Você está logado')
 		res.redirect('/')
 	}
 )

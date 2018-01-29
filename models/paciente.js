@@ -50,6 +50,11 @@ var schema = new mongoose.Schema({
     historicoDoencaDetalhe: { type: String },
     avaliacaoPrima: { type: String },
     dataArquivamento: { type: Date },
+    evolucoes: [{
+        idPaciente: { type: String },
+        data: { type: Date },
+        descricao: { type: String },
+    }]
 })
 
 schema.post('save', function (error, doc, next) {

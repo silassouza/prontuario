@@ -542,7 +542,7 @@ div.forms div#right div.divBottom{
 div.btnAddDelEvo{
 	width: auto;
 	height: 23px;
-	position: absolute;
+	/* position: absolute; */
 	top: 15px;
 	right: 10px;
 }
@@ -570,7 +570,7 @@ div.btnAddDelEvo .btnDel{
 
 div#divEvo{
 	height: 330px;
-	display: none;
+	/* display: none; */
 	margin: 0;
 	background: #FFF;
 }

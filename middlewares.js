@@ -25,26 +25,10 @@ module.exports = {
         next();
     },
 
-    expressValidatorOptions: {
-        errorFormatter: function (param, msg, value) {
-            var namespace = param.split('.')
-                , root = namespace.shift()
-                , formParam = root;
-
-            while (namespace.length) {
-                formParam += '[' + namespace.shift() + ']';
-            }
-            return {
-                param: formParam,
-                msg: msg,
-                value: value
-            };
-        },
-        customValidators: {
-            isDate: function (value) {
-                if (!value) return true;
-                return moment(value, "DD/MM/YYYY").isValid()
-            }
+    custom: {
+        isDate: function (value) {
+            if (!value) return true;
+            return moment(value, "DD/MM/YYYY").isValid()
         }
     },
 

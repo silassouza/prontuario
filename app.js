@@ -8,7 +8,6 @@ var exphbs = require('express-handlebars')
 var flash = require('connect-flash')
 var passport = require('passport')
 var session = require('express-session')
-var expressValidator = require('express-validator')
 
 var db = require('./models/db')
 
@@ -42,9 +41,6 @@ app.use(session({ secret: 'secret', saveUninitialized: true, resave: true }))
 // Passport init
 app.use(passport.initialize())
 app.use(passport.session())
-
-// Express Validator
-app.use(expressValidator(middl.expressValidatorOptions))
 
 // Connect Flash
 app.use(flash())

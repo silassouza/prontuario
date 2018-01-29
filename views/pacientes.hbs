@@ -7,35 +7,91 @@
     </div>
 
     <div class="forms">
-        <form>
-            <!-- ESQUERDA -->
-            <div id="left">
-                {{>pacientes this}}
+        <!-- ESQUERDA -->
+        <div id="left">
+            {{>pacientes this}}
 
-                <div id="menuPacientes">
-                    <a title="Abrir Paciente" class="btnPaciente"></a>
-                    <a title="Abrir Evolução" class="btnEvol"></a>
-                    <a title="Abrir Arquivados" class="btnArq"></a>
-                </div>
+            <div id="menuPacientes">
+                <a title="Abrir Paciente" class="btnPaciente"></a>
+                <a title="Abrir Evolução" class="btnEvol"></a>
+                <a title="Abrir Arquivados" class="btnArq"></a>
             </div>
+        </div>
 
-            <!-- DIREITA -->
-            <div id="right">
-                <div class="divTop">
-                    <evolucao />
+        <!-- DIREITA -->
+        <div id="right">
+            <div class="divTop">
+                <h3>Evolução</h3>
+                <div class="btnAddDelEvo" style="position: absolute;">
+                    <a class="btnAdd" title="Adicionar Evolução"></a>
                 </div>
+                <form>
+                    <div id="divEvo">
+                        <ul>
+                        </ul>
+                    </div>
+                    <button class="btnAzul">SALVAR</button>
+                </form>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>
 <script>
     $(function () {
         $('.btnPaciente').click(function () {
-            var selectedId = $('#divPacientes').attr('selecteId')
-            if (selectedId) {
-                console.log(selectedId)
-                location.href = "/cadastro/adulto/" + selectedId
-            }
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!selectedId) return
+            location.href = "/cadastro/adulto/" + selectedId
         })
+
+        $('.btnEvol').click(function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!selectedId) return
+            find(selectedId)
+        })
+
+        $('.btnAdd').click(function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!selectedId) return
+            $("#divEvo ul").append(item({}))
+        })
+
+        $(document).on('click', '.btnDel', function () {
+            $(this).parents('li').remove()
+        })
+
+        $("form button").click(function (e) {
+            e.preventDefault();
+            var data = $("form").serialize();
+            $.post("/consultas/evolucao", data, function () {
+                window.location = "/";
+            })
+        })
+
+        function find(id) {
+            $.get('/consultas/evolucao/json', { id }, function (data) {
+                var ul = $("#divEvo ul")
+                ul.children().remove()
+                ul.append(data.map(item))
+                ul.append(item({}, 0))
+            })
+        }
+
+        function item(e, i) {
+            var li = $('<li />')
+            var div = $('<div />').appendTo(li)
+            $('<label/>').html("Data").appendTo(div)
+            $('<input/>', { name: 'evolucoes[' + i + '][data]', type: "text" })
+                .val(e.data).mask("00/00/0000").appendTo(div)
+            div = $('<div />').appendTo(li)
+            $('<label/>').html("Descrição").appendTo(div)
+            $('<textarea />', { name: 'evolucoes[' + i + '][descricao]', maxlength: 2000 })
+                .html(e.descricao).appendTo(div)
+            div = $('<div />', { class: "btnAddDelEvo" }).appendTo(li)
+            $('<div />', { class: "btnDel" }).appendTo(div)
+
+            return li
+        }
     })
 </script>
