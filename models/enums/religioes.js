@@ -1,7 +1,7 @@
 var HashMap = require('hashmap');
 var  util = require('../util')
 
-var religioes = module.exports = new HashMap()
+var hash = module.exports = new HashMap()
     .set("ADV", "Adventismo")
     .set("BAB", "Babaçuê")
     .set("BAH", "Bahá'í")
@@ -23,4 +23,4 @@ var religioes = module.exports = new HashMap()
     .set("UMB", "Umbanda")
     .set("XAM", "Xambá")
 
-religioes.list = util.list.bind(religioes)
+hash.list = util.list.bind(hash)

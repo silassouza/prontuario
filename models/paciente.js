@@ -8,8 +8,12 @@ var estadosCivis = require('./enums/estadosCivis').keys()
 var respostas = require('./enums/respostas').keys()
 var religioes = require('./enums/religioes').keys()
 var sexos = require('./enums/sexos').keys()
+var parentescos = require('./enums/parentescos').keys()
+
+var options = { discriminatorKey: 'kind' }
 
 var schema = new mongoose.Schema({
+    kind: { type: String, required: true, enum: ['crianca', 'adulto'] },
     numero: { type: Number, unique: true, required: true },
     userEmail: { type: String, required: true },
     nome: { type: String, required: true },
@@ -18,15 +22,11 @@ var schema = new mongoose.Schema({
     sexo: { type: String, enum: sexos },
     naturalidade: { type: String },
     cpf: { type: String, trim: true, index: true, unique: true, sparse: true },
-    profissao: { type: String },
-    estadoCivil: { type: String, enum: estadosCivis },
     endereco: { type: String },
     cidade: { type: String },
     bairro: { type: String },
     estado: { type: String, enum: estados },
     cep: { type: String },
-    foneResidencial: { type: String },
-    foneTrabalho: { type: String },
     nomePai: { type: String },
     idadePai: { type: String },
     profissaoPai: { type: String },
@@ -48,14 +48,14 @@ var schema = new mongoose.Schema({
     dinamicaEscolarProfissional: { type: String },
     historicoDoenca: { type: String, enum: respostas },
     historicoDoencaDetalhe: { type: String },
-    avaliacaoPrima: { type: String },
+    avaliacaoPrimaria: { type: String },
     dataArquivamento: { type: Date },
     evolucoes: [{
         idPaciente: { type: String },
         data: { type: Date },
         descricao: { type: String },
     }]
-})
+}, options)
 
 schema.post('save', function (error, doc, next) {
     if (error.name === 'MongoError' && error.code === 11000) {
@@ -67,6 +67,26 @@ schema.post('save', function (error, doc, next) {
 
 var Paciente = mongoose.model('Paciente', schema)
 
+var Adulto = Paciente.discriminator('adulto', new mongoose.Schema({
+    profissao: { type: String },
+    estadoCivil: { type: String, enum: estadosCivis },
+    foneResidencial: { type: String },
+    foneTrabalho: { type: String },
+}, options))
+
+var Crianca = Paciente.discriminator('crianca', new mongoose.Schema({
+    parentescoResponsavel: { type: String, enum: parentescos },
+    nomeResponsavel: { type: String },
+    telefoneResponsavel: { type: String },
+    gestacao: { type: String },
+    nascimento: { type: String },
+    escolhaNome: { type: String },
+    agressividade: { type: String },
+    sono: { type: String },
+    medos: { type: String },
+    outrosAspectos: { type: String },
+}, options))
+
 Paciente.nextCount = function (callback) {
     counter.nextCount('Paciente', callback)
 }
@@ -75,20 +95,48 @@ Paciente.updateCounter = function (doc, callback) {
     counter.updateCounter('Paciente', doc, callback)
 }
 
-Paciente.salvar = function (doc, callback){
-    if (!doc._id){
-        var model = new Paciente(doc)
-		Paciente.updateCounter(model, function(err){
+Paciente.salvar = function (doc, callback) {
+    if (!doc._id) {
+        var model = {}
+        switch (doc.kind) {
+            case 'adulto':
+                model = new Adulto(doc)
+                break;
+            case 'crianca':
+                model = new Crianca(doc)
+                break;
+            default:
+                return callback({ message: 'Tipo obrigatório' })
+        }
+
+        Paciente.updateCounter(model, function (err) {
             if (err) return callback(err)
             model.save(callback)
-		})
+        })
     } else {
-        Paciente.findById(doc._id, function(err, model){
+        Paciente.findById(doc._id, function (err, model) {
             if (!model) return callback({ message: 'Paciente não encontrado' })
             _.extend(model, doc)
             model.save(callback)
         })
     }
+}
+
+Paciente.findByName = function(userEmail, name, callback){
+    var query = { 
+        userEmail: { $eq: userEmail },
+        dataArquivamento: { $exists: false }
+    }
+    
+    if(name)
+        query.nome = { $regex: new RegExp('.*' + name + '.*', 'i') }
+    
+    Paciente.find(query, 'nome', function (err, list) {
+        if (err) {
+            return callback(err)
+        }
+        callback(null, list)
+    })
 }
 
 module.exports = Paciente

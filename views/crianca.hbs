@@ -1,0 +1,354 @@
+<div id="main">
+    <div class="topo">
+        <a href="/" title="Home" id="btnHome"></a>
+        <h1>Dados Criança</h1>
+
+        <a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
+    </div>
+
+    <div class="forms">
+        <form>
+            <fieldset>
+                <input type="hidden" name="_id" value="{{_id}}" />
+                <input type="hidden" name="kind" value="crianca" />
+                <!-- ESQUERDA -->
+                <div id="left">
+                    <h5 id="reg">Registro Nº: {{numero}}</h5>
+                    <div class="block">
+                        <label>Nome</label>
+                        <input type="text" name="nome" maxlength="200" class="G" value="{{nome}}" />
+                    </div>
+                    <div class="block">
+                        <div>
+                            <label>Idade</label>
+                            <input type="text" maxlength="3" name="idade" value="{{idade}}" class="P" filter="idade" />
+                        </div>
+                        <div>
+                            <label>Data de Nasc.</label>
+                            <input type="text" name="dataNascimento" value="{{dataNascimento}}" maxlength="10" class="M" filter="data" />
+                        </div>
+                        <div>
+                            <label>Sexo</label>
+                            <select name="sexo" class="P">
+                                <option value=""></option>
+                                {{#each sexos}}
+                                <option value="{{key}}" {{selected key ../sexo}}>{{value}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block">
+                        <div>
+                            <label>Naturalidade</label>
+                            <input type="text" maxlength="100" name="naturalidade" value="{{naturalidade}}" class="M" />
+                        </div>
+                        <div>
+                            <label>CPF</label>
+                            <input type='text' name="cpf" maxlength="14" value="{{cpf}}" class="M" filter="cpf" />
+                        </div>
+                    </div>
+                    <div class="block">
+                        <div>
+                            <label>Endereço</label>
+                            <input type="text" maxlength="200" name="endereco" value="{{endereco}}" class="G" />
+                        </div>
+                    </div>
+                    <div class="block">
+                        <div>
+                            <label>Cidade</label>
+                            <input type="text" maxlength="100" name="cidade" value="{{cidade}}" class="M" />
+                        </div>
+                        <div>
+                            <label>Bairro</label>
+                            <input type="text" maxlength="100" name="bairro" value="{{bairro}}" class="M" />
+                        </div>
+                    </div>
+                    <div class="block">
+                        <div>
+                            <label>Estado</label>
+                            <select name="estado">
+                                <option value=""></option>
+                                {{#each estados}}
+                                <option value="{{key}}" {{selected key ../estado}}>{{value}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div>
+                            <label>CEP</label>
+                            <input type="text" maxlength="8" name="cep" value="{{cep}}" class="M" filter="cep" />
+                        </div>
+                    </div>
+                    <div class="block divResponsavel">
+                        <div class="block">
+                            <label>Responsável</label>
+                            <select name="parentescoResponsavel" class="P">
+                                <option value=""></option>
+                                {{#each parentescos}}
+                                <option value="{{key}}" {{selected key ../parentescoResponsavel}}>{{value}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Nome</label>
+                            <input name="nomeResponsavel" type="text" maxlength="200" class="M" value="{{nomeResponsavel}}" />
+                        </div>
+                        <div>
+                            <label>Fone</label>
+                            <input name="telefoneResponsavel" type="text" class="M" filter="phone" value="{{telefoneResponsavel}}" />
+                        </div>
+                    </div>
+                </div>
+                <!-- DIREITA -->
+                <div id="right">
+                    <div class="divTop">
+                        <h2>Filiação</h2>
+                        <div class="content">
+                            <div class="divL">
+                                <div>
+                                    <label>Pai</label>
+                                    <input type="text" maxlength="200" name="nomePai" value="{{nomePai}}" class="G" />
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <label>Idade</label>
+                                        <input type="text" maxlength="3" name="idadePai" value="{{idadePai}}" class="P" />
+                                    </div>
+                                    <div>
+                                        <label>Profissão</label>
+                                        <input type="text" maxlength="100" name="profissaoPai" value="{{profissaoPai}}" class="M" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divR">
+                                <div>
+                                    <label>Mãe</label>
+                                    <input type="text" maxlength="200" name="nomeMae" value="{{nomeMae}}" class="G" />
+                                </div>
+                                <div class="block">
+                                    <div>
+                                        <label>Idade</label>
+                                        <input type="text" maxlength="3" name="idadeMae" value="{{idadeMae}}" class="P" />
+                                    </div>
+                                    <div>
+                                        <label>Profissão</label>
+                                        <input type="text" maxlength="100" name="profissaoMae" value="{{profissaoMae}}" class="M" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divBottom">
+                        <div class="content">
+                            <div class="block">
+                                <div>
+                                    <label>Encaminhado Por</label>
+                                    <input type="text" maxlength="200" name="encaminhadoPor" value="{{encaminhadoPor}}" class="G" />
+                                </div>
+                                <div>
+                                    <label>Encaminhado Para</label>
+                                    <input type="text" maxlength="200" name="encaminhadoPara" value="{{encaminhadoPara}}" class="G" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div>
+                                <label>Observações</label>
+                                <textarea name="observacao" maxlength="500">{{observacao}}</textarea>
+                            </div>
+                            <div>
+                                <label>Data de Entrada</label>
+                                <input type="text" name="dataEntrada" value="{{dataEntrada}}" maxlength="10" class="M" filter="data" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <!-- ESQUERDA -->
+                <div id="left">
+                    <div class="block">
+                        <div>
+                            <label>Consultas Ant.</label>
+                            <select name="consultAnterior" class="M seletor">
+                                <option value=""></option>
+                                {{#each respostas}}
+                                <option value="{{key}}" {{selected key ../consultAnterior}}>{{value}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Quando</label>
+                            <input type="text" name="dataConsultaAnterior" value="{{dataConsultaAnterior}}" maxlength="10" class="M" filter="data" />
+                        </div>
+                    </div>
+                    <div class="block">
+                        <label>Motivo da Procura</label>
+                        <textarea name="motivoProcura" class="M">{{motivoProcura}}</textarea>
+                    </div>
+                    <div class="block">
+                        <label>Histórico da Queixa</label>
+                        <textarea name="historicoQueixa" class="M">{{historicoQueixa}}</textarea>
+                    </div>
+                    <div class="block">
+                        <label>Religião</label>
+                        <select name="religiao" class="M">
+                            <option value=""></option>
+                            {{#each religioes}}
+                            <option value="{{key}}" {{selected key ../religiao}}>{{value}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="block">
+                        <label>Genetograma</label>
+                        <textarea name="genetograma" maxlength="500" class="M">{{genetograma}}</textarea>
+                    </div>
+                </div>
+                <!-- DIREITA -->
+                <div id="right">
+                    <div class="divTop">
+                        <div class="content">
+                            <div class="divL">
+                                <div class="block">
+                                    <label>Gestação</label>
+                                    <textarea name="gestacao" maxlength="500" class="M">{{gestacao}}</textarea>
+                                </div>
+                                <div class="block">
+                                    <label>Nascimento</label>
+                                    <textarea name="nascimento" maxlength="500" class="M">{{nascimento}}</textarea>
+                                </div>
+                                <div class="block">
+                                    <label>Escolha do Nome</label>
+                                    <textarea name="escolhaNome" maxlength="500" class="M">{{escolhaNome}}</textarea>
+                                </div>
+                            </div>
+                            <div class="divR">
+                                <div class="block">
+                                    <label>Hist. Doenças Crônicas</label>
+                                    <div>
+                                        <select name="historicoDoenca" class="P">
+                                            <option value=""></option>
+                                            {{#each respostas}}
+                                            <option value="{{key}}" {{selected key ../historicoDoenca}}>{{value}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <textarea name="historicoDoencaDetalhe" maxlength="500" class="P">{{historicoDoencaDetalhe}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="block">
+                                    <label>Agressividade</label>
+                                    <textarea name="agressividade" maxlength="500" class="M">{{agressividade}}</textarea>
+                                </div>
+                                <div class="block">
+                                    <label>Sono</label>
+                                    <textarea name="sono" maxlength="500" class="M">{{sono}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <!-- ESQUERDA -->
+                <div id="left">
+                    <div class="block">
+                        <label>Medos</label>
+                        <textarea name="medos" maxlength="500" class="M">{{medos}}</textarea>
+                    </div>
+                    <div class="block">
+                        <label>Outros Aspectos</label>
+                        <textarea name="outrosAspectos" maxlength="500" class="M">{{outrosAspectos}}</textarea>
+                    </div>
+                </div>
+                <!-- DIREITA -->
+                <div id="right">
+                    <div class="divTop">
+                        <div class="content">
+                            <div class="divL">
+                                <div class="block">
+                                    <label>Dinâmica Familiar</label>
+                                    <textarea name="dinamicaFamiliar" maxlength="500" class="M">{{dinamicaFamiliar}}</textarea>
+                                </div>
+                                <div class="block">
+                                    <label>Dinâmica Ecolar/Profissional</label>
+                                    <textarea name="dinamicaEscolarProfissional" maxlength="500" class="M">{{dinamicaEscolarProfissional}}</textarea>
+                                </div>
+                            </div>
+                            <div class="divR">
+                                <div class="block">
+                                    <label>Dinâmica Social</label>
+                                    <textarea name="dinamicaSocial" maxlength="500" class="M">{{dinamicaSocial}}</textarea>
+                                </div>
+                                <div class="block">
+                                    <label>Avaliação Primária</label>
+                                    <textarea name="avaliacaoPrimaria" maxlength="500" class="M">{{avaliacaoPrimaria}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div>
+                <button class="btnAzul">SALVAR</button>
+                <a class="btnAzul" href="/">CANCELAR</a>
+                <a id="next" class="btnAzul">PRÓXIMO</a>
+                <a id="previous" class="btnAzul">ANTERIOR</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        $('form>fieldset:eq(1)').hide()
+        $('form>fieldset:eq(2)').hide()
+        $('#previous').hide()
+
+        $("form button").click(function (e) {
+            e.preventDefault();
+            var data = $("form").serialize();
+            $.post("/cadastro/paciente", data, function () {
+                window.location = "/";
+            })
+        })
+
+        $('#next').click(function (e) {
+            e.preventDefault();
+            var form = $('form>fieldset');
+            var index = form.filter(':visible').index()
+            console.log(index)
+            switch (index) {
+                case 0:
+                    form.filter(':eq(0)').hide()
+                    form.filter(':eq(1)').show()
+                    $('#previous').show()
+                    break
+                case 1:
+                    form.filter(':eq(1)').hide()
+                    form.filter(':eq(2)').show()
+                    $('#next').hide()
+                    break
+            }
+        })
+
+        $('#previous').click(function (e) {
+            e.preventDefault();
+            var form = $('form>fieldset');
+            var index = form.filter(':visible').index()
+            switch (index) {
+                case 1:
+                    form.filter(':eq(0)').show()
+                    form.filter(':eq(1)').hide()
+                    $('#previous').hide()
+                    break
+                case 2:
+                    form.filter(':eq(1)').show()
+                    form.filter(':eq(2)').hide()
+                    $('#next').show()
+                    break
+            }
+        })
+    })
+</script>

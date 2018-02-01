@@ -26,6 +26,7 @@
                     <a class="btnAdd" title="Adicionar Evolução"></a>
                 </div>
                 <form>
+                    <input type="hidden" id="id" name="id"/>
                     <div id="divEvo">
                         <ul>
                         </ul>
@@ -42,7 +43,7 @@
         $('.btnPaciente').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
-            location.href = "/cadastro/adulto/" + selectedId
+            location.href = "/cadastro/paciente/" + selectedId
         })
 
         $('.btnEvol').click(function () {
@@ -71,6 +72,7 @@
 
         function find(id) {
             $.get('/consultas/evolucao/json', { id }, function (data) {
+                $("#id").val(id)
                 var ul = $("#divEvo ul")
                 ul.children().remove()
                 ul.append(data.map(item))
