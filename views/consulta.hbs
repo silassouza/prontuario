@@ -46,6 +46,12 @@
             location.href = "/cadastro/paciente/" + selectedId
         })
 
+        $(document).on('click', '#divPacientes .btnArq', function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!selectedId) return
+            arq(selectedId)
+        })
+
         $('.btnEvol').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
@@ -76,7 +82,13 @@
                 var ul = $("#divEvo ul")
                 ul.children().remove()
                 ul.append(data.map(item))
-                ul.append(item({}, 0))
+                ul.append(item({}, data.length))
+            })
+        }
+
+        function arq(id) {
+            $.post('/consultas/arquivar', { id }, function () {
+                $("#" + id).remove()
             })
         }
 

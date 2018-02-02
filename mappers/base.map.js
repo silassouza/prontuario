@@ -18,7 +18,7 @@ module.exports = {
     },
 
     toState: function (model) {
-        var state = _.clone(model)
+        var state = _.clone((model.toJSON && model.toJSON()) || model)
         _.each(state, function (value, key) {
             if (value && key.startsWith('data')) {
                 state[key] = moment(state[key]).format('DD/MM/YYYY')

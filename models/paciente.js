@@ -51,9 +51,8 @@ var schema = new mongoose.Schema({
     avaliacaoPrimaria: { type: String },
     dataArquivamento: { type: Date },
     evolucoes: [{
-        idPaciente: { type: String },
-        data: { type: Date },
-        descricao: { type: String },
+        data: { type: Date, required: true },
+        descricao: { type: String, required: true },
     }]
 }, options)
 
@@ -122,6 +121,16 @@ Paciente.salvar = function (doc, callback) {
     }
 }
 
+Paciente.arquivar = function(id, callback) {
+    var dataArquivamento = Date.now()
+    Paciente.findByIdAndUpdate(id, { $set: { dataArquivamento } }, function (err) {
+        if (err) {
+            return callback(err)
+        }
+        callback()
+    })
+}
+
 Paciente.findByName = function(userEmail, name, callback){
     var query = { 
         userEmail: { $eq: userEmail },
@@ -138,6 +147,17 @@ Paciente.findByName = function(userEmail, name, callback){
         callback(null, list)
     })
 }
+
+Paciente.salvarEvolucoes = function(id, evolucoes, callback) {
+    Paciente.findByIdAndUpdate(id, { $set: { evolucoes } }, function (err) {
+        if (err) {
+            return callback(err)
+        }
+        callback()
+    })
+}
+
+
 
 module.exports = Paciente
 

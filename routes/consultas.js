@@ -7,7 +7,6 @@ var mddl = require('../middlewares')
 
 var router = express.Router()
 
-// Register
 router.get('/pacientes', function (req, res) {
     Paciente.findByName(req.user.email, null, function (err, pacientes) {
         if (err) {
@@ -20,8 +19,7 @@ router.get('/pacientes', function (req, res) {
 router.get('/pacientes/json/', function (req, res) {
     Paciente.findByName(req.user.email, req.query.nome, function (err, pacientes) {
         if (err) {
-            res.status(500)
-            return res.json(err)
+            return res.status(500).json(err)
         }
         res.json(pacientes)
     })
@@ -30,15 +28,33 @@ router.get('/pacientes/json/', function (req, res) {
 router.get('/evolucao/json', function (req, res) {
     Paciente.findById(req.query.id, 'evolucoes', function (err, pac) {
         if (err) {
-            res.status(500)
-            return res.json(err)
+            return res.status(500).json(err)
         }
-        var evolucoes = (pac.evolucoes || []).map(baseMap.toState)
+        var evolucoes = pac.evolucoes.map(baseMap.toState)
         res.json(evolucoes)
     })
 })
 
+router.post('/arquivar', [
+    check('id').exists().withMessage('Dados inválidos'),
+], function (req, res) {
+
+    var errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(500)
+            .json(errors.array().map(e => e.msg))
+    }
+
+    Paciente.arquivar(req.body.id, function (err) {
+        if (err) {
+            return res.status(500).json(err)
+        }
+        res.end()
+    })
+})
+
 router.post('/evolucao', [
+    check('id').exists().withMessage('Dados inválidos'),
     check('evolucoes').exists().withMessage('Dados inválidos'),
     check('evolucoes.*.data').not().isEmpty().withMessage('O campo Data é obrigatório'),
     check('evolucoes.*.data').custom(mddl.custom.isDate).withMessage('O campo Data é inválido'),
@@ -53,11 +69,11 @@ router.post('/evolucao', [
 
     var evolucoes = req.body.evolucoes.map(baseMap.toJson)
 
-    Paciente.findByIdAndUpdate(req.body.id, { evolucoes }, function (err) {
+    Paciente.salvarEvolucoes(req.body.id, evolucoes, function (err) {
         if (err) {
             return res.status(500).json(err)
         }
-        req.flash('success_msg', 'Paciente salvo com sucesso')
+        req.flash('success_msg', 'Evolução salva com sucesso')
         res.end()
     })
 })

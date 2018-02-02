@@ -12,46 +12,44 @@
 </div>
 
 <script>
-
-    var timer
-    $("#busca").keyup(function (e) {
-        e.preventDefault()
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            find(this.value)
-        }.bind(this), 500)
-    })
-
-    function find(nome) {
-        $.get('/consultas/pacientes/json', { nome }, function (data) {
-
-            var ul = $("#divPacientes ul")
-            ul.children().remove()
-
-            data.map(function (p) {
-                var li = $('<li></li>', {
-                    'title': p.nome,
-                    'id': p._id
-                }).html(p.nome).appendTo(ul)
-
-                var div = $('<div class="btnArq" title="Arquivar"></div>', {
-                    'id': p._id
-                }).appendTo(li)
-            })
-        })
-    }
-
     $(function () {
-        var selectedId = null;
+        var timer = null
+        var selectedId = null
+
+        $("#busca").keyup(function (e) {
+            e.preventDefault()
+            clearTimeout(timer)
+            timer = setTimeout(function () {
+                find(this.value)
+                selectedId = null;
+            }.bind(this), 500)
+        })
+
+        function find(nome) {
+            $.get('/consultas/pacientes/json', { nome }, function (data) {
+                var ul = $("#divPacientes ul")
+                ul.children().remove()
+                data.map(function (p) {
+                    var li = $('<li></li>', {
+                        'title': p.nome,
+                        'id': p._id
+                    }).html(p.nome)
+                        .appendTo(ul)
+                    var div = $('<div class="btnArq" title="Arquivar"></div>')
+                        .appendTo(li)
+                })
+            })
+        }
+
         $(document).on('click', "#divPacientes ul li", function () {
-            $(this).siblings().removeClass("select");
-            $(this).toggleClass("select");
-            var selectedId = $(this).attr("id");
+            $(this).siblings().removeClass("select")
+            $(this).toggleClass("select")
+            var selectedId = $(this).attr("id")
             console.log(selectedId)
-            $('#divPacientes').attr('selectedId', function(i, value){
+            $('#divPacientes').attr('selectedId', function (i, value) {
                 console.log(value)
                 return value == selectedId ? null : selectedId
             })
-        });
+        })
     })
 </script>
