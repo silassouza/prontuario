@@ -36,7 +36,13 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Express Session
-app.use(session({ secret: 'secret', cookie: { maxAge: 1000 * 60 * 60 * 24 }, saveUninitialized: true, resave: true }))
+app.use(session({ 
+  secret: 'secret', 
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
+  saveUninitialized: true, 
+  resave: true,
+  rolling: true
+ }))
 
 // Passport init
 app.use(passport.initialize())
