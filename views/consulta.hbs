@@ -61,7 +61,9 @@
         $('.btnAdd').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
-            $("#divEvo ul").append(item({}))
+            var ul = $("#divEvo ul")
+            ul.append(item({}))
+            $('#divEvo').animate({scrollTop: $(ul).prop("scrollHeight")}, 500);
         })
 
         $(document).on('click', '.btnDel', function () {
@@ -89,6 +91,7 @@
         function arq(id) {
             $.post('/consultas/arquivar', { id }, function () {
                 $("#" + id).remove()
+                $("#divEvo ul").children().remove()
             })
         }
 
