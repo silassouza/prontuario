@@ -121,7 +121,7 @@ Paciente.salvar = function (doc, callback) {
     }
 }
 
-Paciente.arquivar = function(id, callback) {
+Paciente.arquivar = function (id, callback) {
     var dataArquivamento = Date.now()
     Paciente.findByIdAndUpdate(id, { $set: { dataArquivamento } }, function (err) {
         if (err) {
@@ -131,16 +131,14 @@ Paciente.arquivar = function(id, callback) {
     })
 }
 
-Paciente.findByName = function(userEmail, name, callback){
-    var query = { 
+Paciente.findByName = function (userEmail, name, callback) {
+    var query = {
         userEmail: { $eq: userEmail },
         dataArquivamento: { $exists: false }
     }
-    
-    if(name)
+    if (name)
         query.nome = { $regex: new RegExp('.*' + name + '.*', 'i') }
-    
-    Paciente.find(query, 'nome', function (err, list) {
+    Paciente.find(query, 'nome', { sort: { nome: 1 } }, function (err, list) {
         if (err) {
             return callback(err)
         }
@@ -148,7 +146,17 @@ Paciente.findByName = function(userEmail, name, callback){
     })
 }
 
-Paciente.salvarEvolucoes = function(id, evolucoes, callback) {
+Paciente.findEvolucoes = function(id, callback) {
+    Paciente.findById(id, 'evolucoes', function (err, pac) {
+        if (err) {
+            return callback(err)
+        }
+        pac.evolucoes.sort(function (a, b) { return a.data - b.data })
+        callback(null, pac.evolucoes)
+    })
+}
+
+Paciente.salvarEvolucoes = function (id, evolucoes, callback) {
     Paciente.findByIdAndUpdate(id, { $set: { evolucoes } }, function (err) {
         if (err) {
             return callback(err)
@@ -156,8 +164,6 @@ Paciente.salvarEvolucoes = function(id, evolucoes, callback) {
         callback()
     })
 }
-
-
 
 module.exports = Paciente
 

@@ -26,11 +26,11 @@ router.get('/pacientes/json/', function (req, res) {
 })
 
 router.get('/evolucao/json', function (req, res) {
-    Paciente.findById(req.query.id, 'evolucoes', function (err, pac) {
+    Paciente.findEvolucoes(req.query.id, function (err, evolucoes) {
         if (err) {
             return res.status(500).json(err)
         }
-        var evolucoes = pac.evolucoes.map(baseMap.toState)
+        var evolucoes = evolucoes.map(baseMap.toState)
         res.json(evolucoes)
     })
 })
@@ -38,13 +38,11 @@ router.get('/evolucao/json', function (req, res) {
 router.post('/arquivar', [
     check('id').exists().withMessage('Dados inválidos'),
 ], function (req, res) {
-
     var errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(500)
             .json(errors.array().map(e => e.msg))
     }
-
     Paciente.arquivar(req.body.id, function (err) {
         if (err) {
             return res.status(500).json(err)
@@ -60,15 +58,12 @@ router.post('/evolucao', [
     check('evolucoes.*.data').custom(mddl.custom.isDate).withMessage('O campo Data é inválido'),
     check('evolucoes.*.descricao').not().isEmpty().withMessage('O campo Descrição é obrigatório')
 ], function (req, res) {
-
     var errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(500)
             .json(errors.array().map(e => e.msg))
     }
-
     var evolucoes = req.body.evolucoes.map(baseMap.toJson)
-
     Paciente.salvarEvolucoes(req.body.id, evolucoes, function (err) {
         if (err) {
             return res.status(500).json(err)

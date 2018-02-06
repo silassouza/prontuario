@@ -62,7 +62,7 @@
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
             var ul = $("#divEvo ul")
-            ul.append(item({}))
+            ul.append(item({}, ul.children().length))
             $('#divEvo').animate({scrollTop: $(ul).prop("scrollHeight")}, 500);
         })
 
@@ -85,6 +85,7 @@
                 ul.children().remove()
                 ul.append(data.map(item))
                 ul.append(item({}, data.length))
+                $('#divEvo').animate({scrollTop: $(ul).prop("scrollHeight")}, 500);
             })
         }
 
