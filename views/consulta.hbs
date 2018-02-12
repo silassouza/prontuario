@@ -68,6 +68,11 @@
 
         $(document).on('click', '.btnDel', function () {
             $(this).parents('li').remove()
+            var ul = $("#divEvo ul")
+            ul.children().each(function(i, e){
+                $(e).find("input:first").attr("name", "evolucoes[" + i + "][data]")
+                $(e).find("textarea:first").attr("name", "evolucoes[" + i + "][descricao]")
+            })
         })
 
         $("form button").click(function (e) {
