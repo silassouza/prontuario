@@ -30,7 +30,7 @@ router.get('/:year', function (req, res) {
 router.get('/:year/json', function (req, res) {
     Paciente.findShelvedByYear(req.user.email, req.params.year, req.query.nome, function (err, pacientes) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         res.json({ year: req.params.year, pacientes })
     })
@@ -46,7 +46,7 @@ router.post('/restaurar', [
     }
     Paciente.restore(req.body.id, function (err, pacientes) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         req.flash('successMessage', 'Paciente restaurado com sucesso')
         res.json({ redirectUrl: "/consultas/pacientes" })
@@ -63,7 +63,7 @@ router.post('/excluir', [
     }
     Paciente.delete(req.body.id, function (err, pacientes) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         req.flash('successMessage', 'Paciente excluido com sucesso')
         res.json({ redirectUrl: "/consultas/pacientes" })

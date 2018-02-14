@@ -19,7 +19,7 @@ router.get('/pacientes', function (req, res) {
 router.get('/pacientes/json/', function (req, res) {
     Paciente.findByName(req.user.email, req.query.nome, function (err, pacientes) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         res.json(pacientes)
     })
@@ -28,7 +28,7 @@ router.get('/pacientes/json/', function (req, res) {
 router.get('/evolucao/json', function (req, res) {
     Paciente.findEvolucoes(req.query.id, function (err, evolucoes) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         var evolucoes = evolucoes.map(baseMap.toState)
         res.json(evolucoes)
@@ -45,7 +45,7 @@ router.post('/arquivar', [
     }
     Paciente.arquivar(req.body.id, function (err) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         res.json({ successMessage: 'Paciente arquivado com sucesso' })
     })
@@ -66,7 +66,7 @@ router.post('/evolucao', [
     var evolucoes = req.body.evolucoes.map(baseMap.toJson)
     Paciente.salvarEvolucoes(req.body.id, evolucoes, function (err) {
         if (err) {
-            return res.status(500).json(err)
+            return res.status(500).json({ errorMessage: err })
         }
         res.json({ successMessage: 'Evolução salva com sucesso' })
     })
