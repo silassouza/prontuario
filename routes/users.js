@@ -22,8 +22,6 @@ router.post('/register', [
 
 	var errors = validationResult(req)
 
-	console.log(errors.array())
-
 	if (!errors.isEmpty()) {
 		res.render('register', { errors: errors.array() })
 	} else {

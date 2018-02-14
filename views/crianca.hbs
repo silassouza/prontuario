@@ -1,10 +1,5 @@
 <div id="main">
-    <div class="topo">
-        <a href="/" title="Home" id="btnHome"></a>
-        <h1>Dados Criança</h1>
-
-        <a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
-    </div>
+    {{>header titulo='Dados criança'}}
 
     <div class="forms">
         <form>
@@ -318,7 +313,7 @@
             e.preventDefault();
             var form = $('form>fieldset');
             var index = form.filter(':visible').index()
-            console.log(index)
+            
             switch (index) {
                 case 0:
                     form.filter(':eq(0)').hide()

@@ -146,7 +146,7 @@ Paciente.findByName = function (userEmail, name, callback) {
     })
 }
 
-Paciente.findEvolucoes = function(id, callback) {
+Paciente.findEvolucoes = function (id, callback) {
     Paciente.findById(id, 'evolucoes', function (err, pac) {
         if (err) {
             return callback(err)
@@ -158,6 +158,70 @@ Paciente.findEvolucoes = function(id, callback) {
 
 Paciente.salvarEvolucoes = function (id, evolucoes, callback) {
     Paciente.findByIdAndUpdate(id, { $set: { evolucoes } }, function (err) {
+        if (err) {
+            return callback(err)
+        }
+        callback()
+    })
+}
+
+Paciente.listYears = function (userEmail, callback) {
+    Paciente.aggregate([
+        {
+            $match: {
+                $and: [
+                    { dataArquivamento: { $exists: true } },
+                    { userEmail: { $eq: userEmail } }
+                ]
+            }
+        },
+        {
+            $project: {
+                year: { $year: "$dataArquivamento" }
+            }
+        },
+        {
+            $group: {
+                _id: "$year"
+            }
+        }
+    ], function (err, years) {
+        if (err) {
+            return callback(err)
+        }
+        callback(null, years)
+    })
+}
+
+Paciente.findShelvedByYear = function (userEmail, year, name, callback) {
+    var start = new Date(year, 1, 1);
+    var end = new Date(year, 12, 31);
+
+    var query = {
+        userEmail: { $eq: userEmail },
+        dataArquivamento: { $exists: true, $gte: start, $lt: end }
+    }
+    if (name)
+        query.nome = { $regex: new RegExp('.*' + name + '.*', 'i') }
+    Paciente.find(query, 'nome', { sort: { nome: 1 } }, function (err, list) {
+        if (err) {
+            return callback(err)
+        }
+        callback(null, list)
+    })
+}
+
+Paciente.restore = function (id, callback) {
+    Paciente.findByIdAndUpdate(id, { $unset: { dataArquivamento: 1 } }, function (err) {
+        if (err) {
+            return callback(err)
+        }
+        callback()
+    })
+}
+
+Paciente.delete = function (id, callback) {
+    Paciente.deleteOne({ _id: id }, function (err) {
         if (err) {
             return callback(err)
         }

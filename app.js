@@ -15,6 +15,7 @@ var routes = require('./routes/index')
 var users = require('./routes/users')
 var cadastro = require('./routes/cadastro')
 var consultas = require('./routes/consultas')
+var arquivados = require('./routes/arquivados')
 
 var localStrategy = require('./authentication')
 var middl = require('./middlewares')
@@ -76,6 +77,7 @@ app.use('/', routes)
 app.use('/users', users)
 app.use('/cadastro', cadastro)
 app.use('/consultas', consultas)
+app.use('/arquivados', arquivados)
 
 // Set Port
 var port = process.env.PORT

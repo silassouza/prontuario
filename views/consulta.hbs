@@ -1,15 +1,15 @@
 <div id="main">
-    <div class="topo">
-        <a href="/" title="Home" id="btnHome"></a>
-        <h1>Pacientes</h1>
-
-        <a href="javascript:window.history.go(-1)" title="Voltar" class="btnVoltar"></a>
-    </div>
+    {{>header titulo='Pacientes'}}
 
     <div class="forms">
         <!-- ESQUERDA -->
         <div id="left">
-            {{>pacientes this}}
+            {{#>pacientes this}}
+            <li title="{{nome}}" id="{{_id}}">
+                {{nome}}
+                <div class="btnArq" title="Arquivar" id="{{_id}}"></div>
+            </li>
+            {{/pacientes}}
 
             <div id="menuPacientes">
                 <a title="Abrir Paciente" class="btnPaciente"></a>
@@ -26,7 +26,7 @@
                     <a class="btnAdd" title="Adicionar Evolução"></a>
                 </div>
                 <form>
-                    <input type="hidden" id="id" name="id"/>
+                    <input type="hidden" id="id" name="id" />
                     <div id="divEvo">
                         <ul>
                         </ul>
@@ -39,17 +39,69 @@
     </div>
 </div>
 <script>
+
+    function findPacientes(nome) {
+        $.get('/consultas/pacientes/json', { nome }, function (data) {
+            var ul = $("#divPacientes ul")
+            ul.children().remove()
+            data.map(function (p) {
+                var li = $('<li></li>', {
+                    'title': p.nome,
+                    'id': p._id
+                }).html(p.nome)
+                    .appendTo(ul)
+                var div = $('<div class="btnArq" title="Arquivar"></div>')
+                    .appendTo(li)
+            })
+        })
+    }
+
+    function find(id) {
+        $.get('/consultas/evolucao/json', { id }, function (data) {
+            $("#id").val(id)
+            var ul = $("#divEvo ul")
+            ul.children().remove()
+            ul.append(data.map(item))
+            ul.append(item({}, data.length))
+            $('#divEvo').animate({ scrollTop: $(ul).prop("scrollHeight") }, 500);
+        })
+    }
+
+    function arq(id) {
+        $.post('/consultas/arquivar', { id }, function () {
+            $("#" + id).remove()
+            $("#divEvo ul").children().remove()
+        })
+    }
+
+    function item(e, i) {
+        var li = $('<li />')
+        var div = $('<div />').appendTo(li)
+        $('<label/>').html("Data").appendTo(div)
+        $('<input/>', { name: 'evolucoes[' + i + '][data]', type: "text" }).attr("filter", "data")
+            .val(e.data).appendTo(div)
+        div = $('<div />').appendTo(li)
+        $('<label/>').html("Descrição").appendTo(div)
+        $('<textarea />', { name: 'evolucoes[' + i + '][descricao]', maxlength: 2000 })
+            .html(e.descricao).appendTo(div)
+        div = $('<div />', { class: "btnAddDelEvo" }).appendTo(li)
+        $('<div />', { class: "btnDel" }).appendTo(div)
+
+        return li
+    }
+
     $(function () {
+
+        $(document).on('click', '#divPacientes .btnArq', function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!confirm("Confirmar aquivamento?") || !selectedId) return
+            arq(selectedId)
+        })
+
         $('.btnPaciente').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
             location.href = "/cadastro/paciente/" + selectedId
-        })
-
-        $(document).on('click', '#divPacientes .btnArq', function () {
-            var selectedId = $('#divPacientes').attr('selectedId')
-            if (!selectedId) return
-            arq(selectedId)
         })
 
         $('.btnEvol').click(function () {
@@ -58,18 +110,22 @@
             find(selectedId)
         })
 
+        $('#menuPacientes .btnArq').click(function () {
+            location.href = "/arquivados"
+        })
+
         $('.btnAdd').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
             if (!selectedId) return
             var ul = $("#divEvo ul")
             ul.append(item({}, ul.children().length))
-            $('#divEvo').animate({scrollTop: $(ul).prop("scrollHeight")}, 500);
+            $('#divEvo').animate({ scrollTop: $(ul).prop("scrollHeight") }, 500);
         })
 
         $(document).on('click', '.btnDel', function () {
             $(this).parents('li').remove()
             var ul = $("#divEvo ul")
-            ul.children().each(function(i, e){
+            ul.children().each(function (i, e) {
                 $(e).find("input:first").attr("name", "evolucoes[" + i + "][data]")
                 $(e).find("textarea:first").attr("name", "evolucoes[" + i + "][descricao]")
             })
@@ -83,38 +139,6 @@
             })
         })
 
-        function find(id) {
-            $.get('/consultas/evolucao/json', { id }, function (data) {
-                $("#id").val(id)
-                var ul = $("#divEvo ul")
-                ul.children().remove()
-                ul.append(data.map(item))
-                ul.append(item({}, data.length))
-                $('#divEvo').animate({scrollTop: $(ul).prop("scrollHeight")}, 500);
-            })
-        }
 
-        function arq(id) {
-            $.post('/consultas/arquivar', { id }, function () {
-                $("#" + id).remove()
-                $("#divEvo ul").children().remove()
-            })
-        }
-
-        function item(e, i) {
-            var li = $('<li />')
-            var div = $('<div />').appendTo(li)
-            $('<label/>').html("Data").appendTo(div)
-            $('<input/>', { name: 'evolucoes[' + i + '][data]', type: "text" })
-                .val(e.data).mask("00/00/0000").appendTo(div)
-            div = $('<div />').appendTo(li)
-            $('<label/>').html("Descrição").appendTo(div)
-            $('<textarea />', { name: 'evolucoes[' + i + '][descricao]', maxlength: 2000 })
-                .html(e.descricao).appendTo(div)
-            div = $('<div />', { class: "btnAddDelEvo" }).appendTo(li)
-            $('<div />', { class: "btnDel" }).appendTo(div)
-
-            return li
-        }
     })
 </script>

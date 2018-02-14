@@ -2,7 +2,7 @@
 var express = require('express')
 const { check, validationResult } = require('express-validator/check');
 
-var Util = require('../models/util')
+var util = require('../models/util')
 var Paciente = require('../models/paciente')
 var mapper = require('../mappers/paciente.map')
 var mddl = require('../middlewares')
@@ -16,7 +16,7 @@ router.get('/adulto', function (req, res) {
 			return res.render('adulto', { msg_error: err })
 		}
 		var state = mapper.toState(model)
-		state.numero = Util.padLeft(count)
+		state.numero = util.padLeft(count)
 		res.render('adulto', state)
 	})
 })
@@ -28,7 +28,7 @@ router.get('/crianca', function (req, res) {
 			return res.render('crianca', { msg_error: err })
 		}
 		var state = mapper.toState(model)
-		state.numero = Util.padLeft(count)
+		state.numero = util.padLeft(count)
 		res.render('crianca', state)
 	})
 })
@@ -58,8 +58,6 @@ router.post('/paciente', [
 	}
 
 	var doc = mapper.toJson(req)
-
-	console.log(doc)
 
 	Paciente.salvar(doc, function (err) {
 		if (err) {

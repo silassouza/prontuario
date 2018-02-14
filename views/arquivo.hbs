@@ -1,0 +1,75 @@
+<div id="main">
+
+    {{>header titulo='Arquivados'}}
+
+    <div class="forms">
+        <form>
+            <!-- ESQUERDA -->
+            <div id="left" class="arquivadosAno">
+
+                <div class="titulo">
+                    {{year}}
+                </div>
+
+                {{#>pacientes this}}
+                <li title="{{nome}}" id="{{_id}}">
+                    {{nome}}
+                </li>
+                {{/pacientes}}
+
+                <div id="menuPacientes">
+                    <a title="Restaurar Paciente" class="restPaciente"></a>
+                    <a title="Excluir Paciente" class="delPaciente"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script>
+
+
+    function findPacientes(nome) {
+        $.get('/arquivados/{{year}}/json', { nome }, function (data) {
+            var ul = $("#divPacientes ul")
+            ul.children().remove()
+            data.pacientes.map(function (p) {
+                var li = $('<li></li>', {
+                    'title': p.nome,
+                    'id': p._id
+                }).html(p.nome)
+                    .appendTo(ul)
+            })
+        })
+    }
+
+    function rest(id) {
+        $.post('/arquivados/restaurar', { id }, function () {
+            location.href = "/";
+        })
+    }
+
+    function del(id) {
+        $.post('/arquivados/excluir', { id }, function () {
+            location.href = "/";
+        })
+    }
+
+    $(function () {
+
+        $('.restPaciente').click(function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!confirm("Confirmar restauração?") || !selectedId) return
+            rest(selectedId)
+        })
+
+        $('.delPaciente').click(function () {
+            var selectedId = $('#divPacientes').attr('selectedId')
+            if (!confirm("Confirmar exclusão?") || !selectedId) return
+            del(selectedId)
+        })
+
+    })
+
+
+</script>

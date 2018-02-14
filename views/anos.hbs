@@ -1,0 +1,21 @@
+<div id="main">
+    {{>header titulo='Arquivados'}}
+
+    <div class="forms">
+        <form>
+            <!-- ESQUERDA -->
+            <div id="left" class="arquivados">
+                <div>
+                    <ul>
+                        {{#each years}}
+                        <li onclick="window.location.href='/arquivados/{{_id}}'">
+                            <label>{{_id}}</label>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
