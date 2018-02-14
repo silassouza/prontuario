@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    
+
     <div class="alert alert-success" id="ajax-success" style="display: none">
         <button type="button" class="close">×</button>
     </div>
@@ -60,30 +60,7 @@
         return div
     }
 
-
     $(function () {
-
-        {{#if successMessagee}}
-            displaySuccessMessage('{{successMessagee}}') 
-        {{/if}}
-        
-        {{#if errorMessage}}
-            displayErrorMessage('{{errorMessage}}')
-        {{/if}}
-
-        {{#if error}}
-            displayErrorMessage('{{error}}')
-        {{/if}}
-
-        $.ajaxSetup({
-            global: true,
-            statusCode: {
-                401: function () {
-                    //Redirect to the login window if the user is unauthorized
-                    location.href = "/login"
-                }
-            }
-        })
 
         $(document).ajaxStart(function () {
             $('body').loading({ stoppable: true });
@@ -94,8 +71,6 @@
         })
 
         $(document).ajaxSuccess(function (e, req) {
-            $('body').loading("stop");
-            console.log(req.responseJSON)
             if (req.responseJSON) {
                 if (req.responseJSON.redirectUrl) {
                     window.location.href = req.responseJSON.redirectUrl
@@ -107,9 +82,13 @@
         })
 
         $(document).ajaxError(function (e, req) {
-            $('body').loading("stop");
-            if (req.responseJSON && req.responseJSON.errorMessage) {
-                displayErrorMessage(req.responseJSON.errorMessage)
+            if (req.responseJSON) {
+                if (req.responseJSON.redirectUrl) {
+                    window.location.href = req.responseJSON.redirectUrl
+                }
+                if (req.responseJSON.errorMessage) {
+                    displayErrorMessage(req.responseJSON.errorMessage)
+                }
             }
         })
 
@@ -146,7 +125,9 @@
         });
 
     })
-
-</script>
+</script> {{#if successMessage}}
+<script>displaySuccessMessage('{{successMessage}}')</script> {{/if}} {{#if errorMessage}}
+<script>displayErrorMessage('{{errorMessage}}')</script> {{/if}} {{#if error}}
+<script>displayErrorMessage('{{error}}')</script> {{/if}}
 
 </html>

@@ -7,7 +7,7 @@
             {{#>pacientes this}}
             <li title="{{nome}}" id="{{_id}}">
                 {{nome}}
-                <div class="btnArq" title="Arquivar" id="{{_id}}"></div>
+                <div class="btnArq" title="Arquivar"></div>
             </li>
             {{/pacientes}}
 
@@ -92,7 +92,7 @@
     $(function () {
 
         $(document).on('click', '#divPacientes .btnArq', function () {
-            var selectedId = $(this).attr('id')
+            var selectedId = $(this).parent().attr('id')
             if (!selectedId || !confirm("Confirmar aquivamento?")) return
             arq(selectedId)
         })

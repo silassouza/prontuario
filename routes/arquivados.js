@@ -48,7 +48,7 @@ router.post('/restaurar', [
         if (err) {
             return res.status(500).json(err)
         }
-        req.flash('successMessagee', 'Paciente restaurado com sucesso')
+        req.flash('successMessage', 'Paciente restaurado com sucesso')
         res.json({ redirectUrl: "/consultas/pacientes" })
     })
 })
@@ -65,7 +65,7 @@ router.post('/excluir', [
         if (err) {
             return res.status(500).json(err)
         }
-        req.flash('successMessagee', 'Paciente excluido com sucesso')
+        req.flash('successMessage', 'Paciente excluido com sucesso')
         res.json({ redirectUrl: "/consultas/pacientes" })
     })
 })

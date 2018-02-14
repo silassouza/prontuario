@@ -12,13 +12,17 @@ module.exports = {
         if (ignore.indexOf(req.path) > -1 || req.isAuthenticated()) {
             return next()
         } else {
+            var url = '/users/login'
             req.flash('errorMessage', 'Você não está autenticado')
-            res.redirect('/users/login?ref=' + req.path)
+            if(req.xhr){
+                return res.status(401).json({ redirectUrl: url })
+            }
+            res.redirect(url)
         }
     },
 
     setMessages: function (req, res, next) {
-        res.locals.successMessagee = req.flash('successMessagee');
+        res.locals.successMessage = req.flash('successMessage');
         res.locals.errorMessage = req.flash('errorMessage');
         res.locals.error = req.flash('error');
         res.locals.user = req.user || null;
@@ -44,23 +48,5 @@ module.exports = {
                 }
             }
         }
-    },
-
-    // logErrors: function (err, req, res, next) {
-    //     console.error(err)
-    //     next(err)
-    // },
-
-    // clientErrorHandler: function (err, req, res, next) {
-    //     if (req.xhr) {
-    //         res.status(500).send({ error: process.env.NODE_ENV === 'prod' ? 'Something failed!' : err })
-    //     } else {
-    //         next(err)
-    //     }
-    // },
-
-    // errorHandler: function (err, req, res, next) {
-    //     res.status(500)
-    //     res.render('error', { error: err })
-    // }
+    }
 }

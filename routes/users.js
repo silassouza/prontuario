@@ -32,7 +32,7 @@ router.post('/register', [
 			if (err) {
 				req.flash('errorMessage', err.message)
 			} else {
-				req.flash('successMessagee', 'Você está registrado e agora pode se logar')
+				req.flash('successMessage', 'Você está registrado e agora pode se logar')
 			}
 			res.redirect('/users/login')
 		})
@@ -50,14 +50,14 @@ router.post('/login',
 		failureFlash: true,
 	}),
 	function (req, res) {
-		req.flash('successMessagee', 'Você está logado')
+		req.flash('successMessage', 'Você está logado')
 		res.redirect('/')
 	}
 )
 
 router.get('/logout', function (req, res) {
 	req.logout();
-	req.flash('successMessagee', 'Você está deslogado')
+	req.flash('successMessage', 'Você está deslogado')
 	res.redirect('/users/login')
 })
 

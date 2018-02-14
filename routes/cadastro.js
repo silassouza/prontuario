@@ -61,9 +61,9 @@ router.post('/paciente', [
 
 	Paciente.salvar(doc, function (err) {
 		if (err) {
-			return res.status(500).send(err.message)
+			return res.status(500).json({errorMessage: err.message})
 		}
-		req.flash('successMessagee', 'Paciente salvo com sucesso')
+		req.flash('successMessage', 'Paciente salvo com sucesso')
 		res.json({ redirectUrl: "/" })
 	})
 })
