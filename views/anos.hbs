@@ -8,9 +8,11 @@
                 <div>
                     <ul>
                         {{#each years}}
-                        <li onclick="window.location.href='/arquivados/{{_id}}'">
-                            <label>{{_id}}</label>
-                        </li>
+                        <a href="/arquivados/{{_id}}">
+                            <li>
+                                <label>{{_id}}</label>
+                            </li>
+                        </a>
                         {{/each}}
                     </ul>
                 </div>

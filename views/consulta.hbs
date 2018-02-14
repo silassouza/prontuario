@@ -69,8 +69,7 @@
 
     function arq(id) {
         $.post('/consultas/arquivar', { id }, function () {
-            $("#" + id).remove()
-            $("#divEvo ul").children().remove()
+            findPacientes()
         })
     }
 
@@ -93,8 +92,8 @@
     $(function () {
 
         $(document).on('click', '#divPacientes .btnArq', function () {
-            var selectedId = $('#divPacientes').attr('selectedId')
-            if (!confirm("Confirmar aquivamento?") || !selectedId) return
+            var selectedId = $(this).attr('id')
+            if (!selectedId || !confirm("Confirmar aquivamento?")) return
             arq(selectedId)
         })
 
@@ -134,9 +133,7 @@
         $("form button").click(function (e) {
             e.preventDefault();
             var data = $("form").serialize();
-            $.post("/consultas/evolucao", data, function () {
-                window.location = "/";
-            })
+            $.post("/consultas/evolucao", data)
         })
 
 

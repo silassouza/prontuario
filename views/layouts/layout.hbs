@@ -16,74 +16,13 @@
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
     <script type="text/javascript" src="/js/jquery.loading.min.js"></script>
 
-    <script>
-
-        $(document).on('click', '.alert .close', function (e) {
-            $(this).siblings().remove()
-            $(this).parent().hide()
-        })
-
-        $.ajaxSetup({
-            global: false,
-            statusCode: {
-                401: function () {
-                    //Redirect to the login window if the user is unauthorized
-                    location.href = "/login"
-                }
-            },
-            beforeSend: function () {
-                $('body').loading({ stoppable: true });
-            },
-            complete: function () {
-                $('body').loading("stop");
-            },
-            success: function () {
-                $('body').loading("stop");
-            },
-            error: handleError
-
-        })
-
-        function handleError(req, st, err) {
-            $('body').loading("stop");
-            var div = $("<div>")
-            if (Array.isArray(req.responseJSON)) {
-                var ul = $("<ul>").appendTo(div)
-                for (var i in req.responseJSON) {
-                    var li = $("<li>").appendTo(ul)
-                    li.html(req.responseJSON[i])
-                }
-
-            } else {
-                div.html(req.responseText)
-            }
-            $("#ajax-errors>div").remove()
-            $("#ajax-errors").append(div).show()
-        }
-
-
-    </script>
 </head>
 
 <body>
-    {{#if success_msg}}
-    <div class="alert alert-success">
-        {{success_msg}}
-        <a href="#close" class="icon-remove"></a>
+    
+    <div class="alert alert-success" id="ajax-success" style="display: none">
+        <button type="button" class="close">×</button>
     </div>
-    {{/if}} {{#if error_msg}}
-    <div class="alert alert-danger">
-        {{error_msg}}
-        <a href="#close" class="icon-remove"></a>
-    </div>
-    {{/if}} {{#if error}}
-    <div class="alert alert-danger">
-        {{error}}
-        <a href="#close" class="icon-remove"></a>
-    </div>
-    {{/if}}
-
-
     <div class="alert alert-danger" id="ajax-errors" style="display: none">
         <button type="button" class="close">×</button>
     </div>
@@ -93,7 +32,92 @@
 </body>
 
 <script>
+    function displayErrorMessage(message) {
+        var div = createDivMessage(message)
+        $("#ajax-success").hide()
+        $("#ajax-errors>div").remove()
+        $("#ajax-errors").append(div).show()
+    }
+
+    function displaySuccessMessage(message) {
+        var div = createDivMessage(message)
+        $("#ajax-errors").hide()
+        $("#ajax-success>div").remove()
+        $("#ajax-success").append(div).show()
+    }
+
+    function createDivMessage(message) {
+        var div = $("<div>")
+        if (Array.isArray(message)) {
+            var ul = $("<ul>").appendTo(div)
+            for (var i in message) {
+                var li = $("<li>").appendTo(ul)
+                li.html(message[i])
+            }
+        } else {
+            div.html(message)
+        }
+        return div
+    }
+
+
     $(function () {
+
+        {{#if successMessagee}}
+            displaySuccessMessage('{{successMessagee}}') 
+        {{/if}}
+        
+        {{#if errorMessage}}
+            displayErrorMessage('{{errorMessage}}')
+        {{/if}}
+
+        {{#if error}}
+            displayErrorMessage('{{error}}')
+        {{/if}}
+
+        $.ajaxSetup({
+            global: true,
+            statusCode: {
+                401: function () {
+                    //Redirect to the login window if the user is unauthorized
+                    location.href = "/login"
+                }
+            }
+        })
+
+        $(document).ajaxStart(function () {
+            $('body').loading({ stoppable: true });
+        })
+
+        $(document).ajaxStop(function () {
+            $('body').loading("stop");
+        })
+
+        $(document).ajaxSuccess(function (e, req) {
+            $('body').loading("stop");
+            console.log(req.responseJSON)
+            if (req.responseJSON) {
+                if (req.responseJSON.redirectUrl) {
+                    window.location.href = req.responseJSON.redirectUrl
+                }
+                if (req.responseJSON.successMessage) {
+                    displaySuccessMessage(req.responseJSON.successMessage)
+                }
+            }
+        })
+
+        $(document).ajaxError(function (e, req) {
+            $('body').loading("stop");
+            if (req.responseJSON && req.responseJSON.errorMessage) {
+                displayErrorMessage(req.responseJSON.errorMessage)
+            }
+        })
+
+        $(document).on('click', '.alert .close', function (e) {
+            $(this).siblings().remove()
+            $(this).parent().hide()
+        })
+
         $(document).on("focus", "input[filter=data]", function () { $(this).mask("00/00/0000") })
 
         $("input[filter=idade]").mask("000")

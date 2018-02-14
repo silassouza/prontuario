@@ -44,15 +44,11 @@
     }
 
     function rest(id) {
-        $.post('/arquivados/restaurar', { id }, function () {
-            location.href = "/";
-        })
+        $.post('/arquivados/restaurar', { id })
     }
 
     function del(id) {
-        $.post('/arquivados/excluir', { id }, function () {
-            location.href = "/";
-        })
+        $.post('/arquivados/excluir', { id })
     }
 
     $(function () {

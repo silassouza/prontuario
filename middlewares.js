@@ -12,14 +12,14 @@ module.exports = {
         if (ignore.indexOf(req.path) > -1 || req.isAuthenticated()) {
             return next()
         } else {
-            req.flash('error_msg', 'Você não está autenticado')
+            req.flash('errorMessage', 'Você não está autenticado')
             res.redirect('/users/login?ref=' + req.path)
         }
     },
 
     setMessages: function (req, res, next) {
-        res.locals.success_msg = req.flash('success_msg');
-        res.locals.error_msg = req.flash('error_msg');
+        res.locals.successMessagee = req.flash('successMessagee');
+        res.locals.errorMessage = req.flash('errorMessage');
         res.locals.error = req.flash('error');
         res.locals.user = req.user || null;
         next();

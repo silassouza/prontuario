@@ -304,9 +304,7 @@
         $("form button").click(function (e) {
             e.preventDefault();
             var data = $("form").serialize();
-            $.post("/cadastro/paciente", data, function () {
-                window.location = "/";
-            })
+            $.post("/cadastro/paciente", data)
         })
 
         $('#next').click(function (e) {

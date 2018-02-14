@@ -41,13 +41,13 @@ router.post('/arquivar', [
     var errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(500)
-            .json(errors.array().map(e => e.msg))
+            .json({ errorMessage: errors.array().map(e => e.msg) })
     }
     Paciente.arquivar(req.body.id, function (err) {
         if (err) {
             return res.status(500).json(err)
         }
-        res.end()
+        res.json({ successMessage: 'Paciente arquivado com sucesso' })
     })
 })
 
@@ -61,15 +61,14 @@ router.post('/evolucao', [
     var errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(500)
-            .json(errors.array().map(e => e.msg))
+            .json({ errorMessage: errors.array().map(e => e.msg) })
     }
     var evolucoes = req.body.evolucoes.map(baseMap.toJson)
     Paciente.salvarEvolucoes(req.body.id, evolucoes, function (err) {
         if (err) {
             return res.status(500).json(err)
         }
-        req.flash('success_msg', 'Evolução salva com sucesso')
-        res.end()
+        res.json({ successMessage: 'Evolução salva com sucesso' })
     })
 })
 

@@ -36,7 +36,7 @@ router.get('/crianca', function (req, res) {
 router.get('/paciente/:id', function (req, res) {
 	Paciente.findById(req.params.id, function (err, model) {
 		if (err || !model) {
-			req.flash('error_msg', 'Paciente não encontrado')
+			req.flash('errorMessage', 'Paciente não encontrado')
 			return res.redirect("/")
 		}
 		var state = mapper.toState(model)
@@ -54,7 +54,7 @@ router.post('/paciente', [
 	var errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return res.status(500)
-			.json(errors.array().map(e => e.msg))
+			.json({ errorMessage: errors.array().map(e => e.msg) })
 	}
 
 	var doc = mapper.toJson(req)
@@ -63,8 +63,8 @@ router.post('/paciente', [
 		if (err) {
 			return res.status(500).send(err.message)
 		}
-		req.flash('success_msg', 'Paciente salvo com sucesso')
-		res.end()
+		req.flash('successMessagee', 'Paciente salvo com sucesso')
+		res.json({ redirectUrl: "/" })
 	})
 })
 
