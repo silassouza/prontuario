@@ -22,8 +22,6 @@
         })
 
         $(document).on('click', "#divPacientes ul li", function () {
-            console.log('click')
-            
             $(this).siblings().removeClass("select")
             $(this).toggleClass("select")
             var selectedId = $(this).attr("id")

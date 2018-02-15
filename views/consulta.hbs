@@ -70,6 +70,9 @@
     function arq(id) {
         $.post('/consultas/arquivar', { id }, function () {
             findPacientes()
+            $('#divPacientes').removeAttr('selectedId')
+            var ul = $("#divEvo ul")
+            ul.children().remove()
         })
     }
 
