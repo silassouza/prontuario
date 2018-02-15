@@ -11,18 +11,19 @@
 <script>
     $(function () {
         var timer = null
-        var selectedId = null
 
         $("#busca").keyup(function (e) {
             e.preventDefault()
             clearTimeout(timer)
             timer = setTimeout(function () {
                 findPacientes(this.value)
-                selectedId = null;
+                $('#divPacientes').removeAttr('selectedId')
             }.bind(this), 500)
         })
 
         $(document).on('click', "#divPacientes ul li", function () {
+            console.log('click')
+            
             $(this).siblings().removeClass("select")
             $(this).toggleClass("select")
             var selectedId = $(this).attr("id")

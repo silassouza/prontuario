@@ -55,13 +55,13 @@
 
         $('.restPaciente').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
-            if (!confirm("Confirmar restauração?") || !selectedId) return
+            if (!selectedId || !confirm("Confirmar restauração?")) return
             rest(selectedId)
         })
 
         $('.delPaciente').click(function () {
             var selectedId = $('#divPacientes').attr('selectedId')
-            if (!confirm("Confirmar exclusão?") || !selectedId) return
+            if (!selectedId || !confirm("Confirmar exclusão?")) return
             del(selectedId)
         })
 
